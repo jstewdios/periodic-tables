@@ -2,6 +2,8 @@
 
 This first version is an exploratory interface, not a reaction simulator. It is intentionally a small authored set of learning instruments on top of a complete table.
 
+For redistribution terms, see [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md). The [provenance manifest](provenance.json) records the exact snapshot, derived file, font assets, retrieval references, and SHA-256 hashes. The MIT license for our original code does not relicense imported data or fonts.
+
 ## Element data
 
 - Source: [PubChem PUG REST periodic table](https://pubchem.ncbi.nlm.nih.gov/rest/pug/periodictable/JSON), retrieved 2026-09-06. The unmodified response is checked in as `pubchem-periodic-table.json`.
