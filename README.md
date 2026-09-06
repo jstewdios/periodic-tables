@@ -2,6 +2,10 @@
 
 A collection of playable learning instruments for discovering visual patterns in the elements and exploring the compounds they form.
 
+[Try the current app](https://periodic-tables-pied.vercel.app/) · [Contribute](CONTRIBUTING.md) · [MIT license](LICENSE)
+
+The registered primary domain is [periodictables.xyz](https://periodictables.xyz/); use the Vercel link until its HTTPS setup is confirmed.
+
 ## The first collection
 
 - **The table:** all 118 elements; family colors, electron-pull gradients, room-temperature states, and atomic number; element details, source links, arrow-key navigation, and optional sonification.
@@ -28,6 +32,14 @@ Equivalent `npm run dev`, `npm test`, and `npm run check` commands are defined. 
 ## Deployment
 
 All production assets are authored and tracked in `dist/`. `vercel.json` configures a static deployment with `dist` as the output directory; no build command or secrets are required. The `.openai/hosting.json` file identifies the private Sites version. The same assets can be hosted by any static HTTP host. No API keys or backend are needed.
+
+Keep `LICENSE.txt`, `THIRD_PARTY_NOTICES.txt`, and the font license files when redistributing the static site. Forks using ordinary static hosting can ignore `.openai/hosting.json`; an independent Sites deployment requires its own project identity. The package's `private: true` prevents accidental npm publication; it does not restrict MIT use or control GitHub visibility.
+
+## License and contributions
+
+Original code, authored learning content, and documentation are available under the [MIT license](LICENSE), copyright 2026 James Stewart. Bundled fonts remain OFL-licensed; imported PubChem data retains its source terms. See [third-party notices](THIRD_PARTY_NOTICES.md) and the [provenance manifest](docs/provenance.json) for attribution, retrieval details, and exact file hashes.
+
+One useful question or correction can make a good contribution. Read the short [contribution guide](CONTRIBUTING.md), especially the scientific constraints and source expectations. The initial implementation used AI assistance; review and corrections are welcome.
 
 ## Structure
 

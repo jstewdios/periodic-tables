@@ -2,6 +2,8 @@
   "name": "periodic-tables",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/jstewdios/periodic-tables.git" },
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",

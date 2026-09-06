@@ -1,0 +1,34 @@
+# Third-party notices
+
+The original application code, authored diagrams, explanations, and documentation are offered under the [MIT license](https://github.com/jstewdios/periodic-tables/blob/main/LICENSE), copyright 2026 James Stewart. Imported assets and data retain their own terms below. The MIT license does not replace those terms or grant rights to third-party material.
+
+This notice is also distributed as `dist/THIRD_PARTY_NOTICES.txt`. The production directory includes `LICENSE.txt` and both complete font licenses, so a copy of the static site carries its notices.
+
+## Bundled fonts
+
+| Asset | Attribution | License |
+| --- | --- | --- |
+| `dist/fonts/dm-sans.woff2` | Copyright 2014 The DM Sans Project Authors ([upstream](https://github.com/googlefonts/dm-fonts)) | [SIL Open Font License 1.1](https://github.com/jstewdios/periodic-tables/blob/main/dist/fonts/DM-Sans-OFL.txt) |
+| `dist/fonts/manrope.woff2` | Copyright 2018 The Manrope Project Authors ([upstream](https://github.com/sharanda/manrope)) | [SIL Open Font License 1.1](https://github.com/jstewdios/periodic-tables/blob/main/dist/fonts/Manrope-OFL.txt) |
+
+These Latin variable-font files were obtained from Google Fonts on 2026-09-06 and have not been modified by this project. Google Fonts' versioned delivery URLs and the source stylesheet request are recorded in [the provenance manifest](https://github.com/jstewdios/periodic-tables/blob/main/docs/provenance.json). License texts were retrieved from the Google Fonts `ofl/dmsans/OFL.txt` and `ofl/manrope/OFL.txt` files. The manifest records SHA-256 hashes of the exact bundled files; it does not assume a moving upstream branch will remain identical.
+
+When distributing the fonts, preserve their copyright notices and complete OFL texts. Modified fonts must satisfy the OFL, including any applicable Reserved Font Name rules. Fonts cannot be sold by themselves. See the [official OFL text and guidance](https://openfontlicense.org/).
+
+## PubChem factual element data
+
+`docs/pubchem-periodic-table.json` is the unmodified 118-element response retrieved on 2026-09-06 from [PubChem PUG REST](https://pubchem.ncbi.nlm.nih.gov/rest/pug/periodictable/JSON). `dist/elements.js` derives from that response. Acknowledgment: PubChem, National Center for Biotechnology Information, National Library of Medicine, National Institutes of Health, and the contributing data sources identified by PubChem.
+
+Reuse is governed by the [NCBI policies, including Copyright Status and Molecular Data Usage](https://www.ncbi.nlm.nih.gov/home/about/policies/). NCBI places no restrictions of its own on use or distribution of its molecular data, but warns that contributors may hold rights that NCBI cannot transfer. This project therefore does **not** label all PubChem content as MIT, CC0, or universally public domain.
+
+The retained export consists of element identifiers, numeric/factual properties, configurations, categories, and discovery years. It does not include compound-page descriptions, photographs, spectrum images, journal text, or artwork. The aggregate endpoint does not include field-level license or contributor identifiers; that limitation is recorded in `docs/provenance.json`. For additional content, inspect the specific record's sources and reuse terms before importing it. The [PubChem team's description of its periodic table](https://pmc.ncbi.nlm.nih.gov/articles/PMC8276875/) explains its integration of multiple authoritative sources.
+
+Transformations and scientific limitations are documented in [SCIENCE.md](https://github.com/jstewdios/periodic-tables/blob/main/docs/SCIENCE.md). Keep this acknowledgment and provenance with redistributed data and derived files. The project asserts no exclusive rights over chemical facts.
+
+## Linked references and original material
+
+The app links to RSC element guides, IUPAC, and PubChem compound records for further reading. Their websites and linked content remain subject to their respective owners' terms; linking does not relicense them. No RSC/IUPAC artwork, screenshots, copied narrative passages, or external molecular images are bundled. The SVG diagrams and explanatory prose were authored for this application, with AI assistance, using chemical facts and cited references.
+
+The app has no bundled third-party JavaScript packages. Platform APIs, such as Web Audio and local storage, are browser features rather than redistributed libraries. No affiliation with or endorsement by the reference organizations is implied.
+
+Local copies in this distribution: LICENSE.txt, fonts/DM-Sans-OFL.txt, fonts/Manrope-OFL.txt.

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "recorded_on": "2026-09-06",
+  "assets": [
+    {
+      "path": "dist/fonts/dm-sans.woff2",
+      "source_url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K4.woff2",
+      "source_css_url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400..700&family=Manrope:wght@400..800&display=swap",
+      "retrieved_on": "2026-09-06",
+      "delivery_bytes_verified_on": "2026-09-06",
+      "license": "OFL-1.1",
+      "modified_by_project": false,
+      "sha256": "9fea608a947e67020c33cad9a6fe3d60c54119dfb8cff87768a8117a15ed7543",
+      "size_bytes": 36932
+    },
+    {
+      "path": "dist/fonts/manrope.woff2",
+      "source_url": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSg.woff2",
+      "source_css_url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400..700&family=Manrope:wght@400..800&display=swap",
+      "retrieved_on": "2026-09-06",
+      "delivery_bytes_verified_on": "2026-09-06",
+      "license": "OFL-1.1",
+      "modified_by_project": false,
+      "sha256": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972",
+      "size_bytes": 24836
+    },
+    {
+      "path": "dist/fonts/DM-Sans-OFL.txt",
+      "source_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/OFL.txt",
+      "retrieved_on": "2026-09-06",
+      "license": "OFL-1.1",
+      "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
+      "size_bytes": 4482
+    },
+    {
+      "path": "dist/fonts/Manrope-OFL.txt",
+      "source_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt",
+      "retrieved_on": "2026-09-06",
+      "license": "OFL-1.1",
+      "sha256": "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c",
+      "size_bytes": 4384
+    },
+    {
+      "path": "docs/pubchem-periodic-table.json",
+      "source_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/periodictable/JSON",
+      "retrieved_on": "2026-09-06",
+      "record_count": 118,
+      "modified_by_project": false,
+      "terms_url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+      "license_note": "NCBI data-usage policy with upstream rights retained; no blanket MIT or CC0 assertion. Aggregate export does not include field-level contributor/license identifiers.",
+      "sha256": "ff0f75976583b8a6493b18d0b42e83e1b68bd6e112b45d33578d98494ed5d321",
+      "size_bytes": 44488
+    },
+    {
+      "path": "dist/elements.js",
+      "derived_from": "docs/pubchem-periodic-table.json",
+      "generator": "scripts/generate-elements.py",
+      "transformation_notes": "docs/SCIENCE.md",
+      "license_note": "Generator and original code are MIT; imported factual values retain source terms.",
+      "sha256": "312d7f398cec879557b8ae8ae3c1bf5f178de0c2fcc104bada932c68012b6844",
+      "size_bytes": 26576
+    }
+  ],
+  "references_not_bundled": [
+    "https://periodic-table.rsc.org/",
+    "https://iupac.org/what-we-do/periodic-table-of-elements/",
+    "https://pubchem.ncbi.nlm.nih.gov/"
+  ]
+}
