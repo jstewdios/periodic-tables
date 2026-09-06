@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10141d">
+  <meta name="description" content="A little curiosity. A whole world of matter. Explore all 118 elements, reveal visual patterns, and assemble compounds in a playful learning workbench.">
+  <meta property="og:title" content="Periodic Tables — instruments for the curious">
+  <meta property="og:description" content="Play with the patterns. Follow a question. Discover what matter is made of.">
+  <title>Periodic Tables — instruments for the curious</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the instruments</a>
+  <header class="site-header">
+    <a href="#table" class="brand" aria-label="Periodic Tables home"><span class="brand-mark" aria-hidden="true"><small>78</small>Pt</span><span>periodic<span class="brand-light"> tables</span><small>INSTRUMENTS FOR THE CURIOUS</small></span></a>
+    <nav aria-label="Instruments">
+      <a href="#table" data-nav="table">The table</a>
+      <a href="#workbench" data-nav="workbench">Workbench</a>
+      <a href="#everyday" data-nav="everyday">Everyday matter</a>
+      <a href="#trails" data-nav="trails">Trails</a>
+    </nav>
+    <a href="#collection" class="collection-link" data-nav="collection" aria-label="Your collection"><span aria-hidden="true">▧</span> <span class="collection-label">Collection</span> <span id="collection-count">0</span></a>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="site-footer"><span>A little curiosity. A whole world of matter.</span><button data-action="sources" class="text-button">Sources & how this works <span aria-hidden="true">↗</span></button></footer>
+  <dialog id="sources-dialog" aria-labelledby="sources-title"><div class="dialog-header"><h2 id="sources-title">A closer look</h2><button class="icon-button" data-action="close-sources" aria-label="Close sources">×</button></div><div id="sources-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><div class="noscript">Periodic Tables needs JavaScript for its interactive instruments. You can also explore the <a href="https://periodic-table.rsc.org/">Royal Society of Chemistry’s periodic table</a>.</div></noscript>
+</body>
+</html>
