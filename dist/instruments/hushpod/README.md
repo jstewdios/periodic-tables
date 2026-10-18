@@ -1,6 +1,6 @@
 # Hushpod
 
-An independent playable instrument by James Stewart with ChatGPT / Codex, originating in the collaborative instrument study. This integration reuses the original October 16, 2026 model, pickup synthesis, and interaction design.
+An independent playable prototype developed by ChatGPT / Codex within a collaborative instrument study initiated and facilitated by James Stewart. Claude, Gemini, and Grok participated in the broader study; their specific contributions and original artifacts will be documented separately. This integration reuses the original October 16, 2026 model, pickup synthesis, and interaction design.
 
 Tap a pocket to wake it, rub to feed it, and rest a finger to absorb vibration. Drag the narrow waists to control exchange. Portrait uses a vertical pod with horizontal waist gestures; landscape uses a horizontal pod. The field guide and keyboard controls are inside the instrument.
 
