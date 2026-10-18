@@ -37,6 +37,12 @@ node --check dist/audio.js
 
 For UI changes, try the affected flow with a keyboard and at a narrow viewport. Report what you actually checked in the pull request. Add a regression test when correcting substantive matching or data logic; prose and styling changes do not need implementation-mirroring tests.
 
+## Add an instrument
+
+Start with one playable question. Give the instrument its own static directory under `dist/instruments/<id>/`, then add its invitation, status, URL, source, and credit to `dist/instruments/catalog.js`. Keep its model, styles, and audio independent. Ordinary links mount a new document; no shared engine or plugin framework is needed. Preserve differing collaborator interpretations as separate instruments with their own credits.
+
+Read [the minimal instrument contract](docs/INSTRUMENTS.md) for lifecycle requirements, touch/accessibility expectations, provenance, and verification. Run `npm test` and `npm run check`; the recursive syntax check includes new instrument directories. Document real-device gaps. Do not add unfinished prototypes just to fill the collection.
+
 ## Keep the science honest
 
 Read [SCIENCE.md](docs/SCIENCE.md) before changing scientific content. Keep missing values missing; preserve exact molecular counts; distinguish molecules from extended solids; and never treat an unrecognized composition as proof of impossibility. Diagrams and sound mappings must state what they represent. Cite primary sources near new facts or in the provenance documentation. More entries are useful when they support better questions.

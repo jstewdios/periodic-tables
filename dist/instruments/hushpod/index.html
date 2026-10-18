@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1518">
+  <meta name="description" content="A soft instrument for catching, hiding, and revealing sound. Touch the skin. Shape what you hear.">
+  <title>Hushpod — a little instrument with something to hide</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="instrument">
+    <nav class="collection-nav" aria-label="Instrument collection"><a href="../">← Instruments</a><span>PLAYABLE PROTOTYPE</span><a href="../../#table">Chemistry ↗</a></nav>
+    <header class="header">
+      <div class="identity"><h1>hushpod<span class="title-dot">.</span></h1><p>a little instrument with something to hide</p></div>
+      <div class="header-tools">
+        <button class="icon-button" id="reset" aria-label="Start again" title="Start again · R"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1.5 7M4 4v6h6"/></svg></button>
+        <button class="icon-button" id="help-open" aria-label="How to play" title="How to play · ?"><span class="help-glyph">?</span></button>
+      </div>
+    </header>
+
+    <section class="stage" id="stage" aria-label="The Hushpod instrument">
+      <div class="stage-caption" aria-hidden="true"><span class="small-rule"></span><span>touch the skin · shape the sound</span><span class="small-rule"></span></div>
+      <canvas id="pod" aria-hidden="true"></canvas>
+      <div class="touch-targets" id="touch-targets">
+        <button class="pocket-target" data-pocket="0" aria-label="Left pocket. Tap to ring. Hold Shift and 1 to damp."></button>
+        <button class="pocket-target" data-pocket="1" aria-label="Middle pocket. Tap to ring. Hold Shift and 2 to damp."></button>
+        <button class="pocket-target" data-pocket="2" aria-label="Right pocket. Tap to ring. Hold Shift and 3 to damp."></button>
+        <div class="waist-target" data-waist="0" role="slider" tabindex="0" aria-label="First waist openness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
+        <div class="waist-target" data-waist="1" role="slider" tabindex="0" aria-label="Second waist openness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
+      </div>
+      <div class="interaction-note" id="interaction-note" aria-live="polite">A small touch is enough.</div>
+      <div class="audio-error" id="audio-error" role="alert" hidden></div>
+    </section>
+
+    <footer class="footer">
+      <div class="listening-row">
+        <div class="reading" title="Vibration still inside the pod"><span class="reading-icon"><i id="motion-light"></i></span><span id="motion-caption">at rest</span></div>
+        <button class="begin-button" id="begin"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6Z"/></svg><span>Begin listening</span></button>
+        <div class="volume-group" id="volume-group" hidden>
+          <button class="icon-button sound-button" id="mute" aria-label="Mute sound" aria-pressed="false" title="Mute · M"><svg id="sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m11 5-5 4H3v6h3l5 4Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg></button>
+          <label class="sr-only" for="volume">Sound level</label><input id="volume" type="range" min="0" max="100" value="55" aria-label="Sound level">
+        </div>
+        <button id="inspect-toggle" class="quiet-button" aria-pressed="false" title="Inspect the motion · D">inspect<span class="inspect-dot"></span></button>
+      </div>
+      <div class="gesture-guide"><span><b>tap</b> to wake</span><span class="guide-dot">·</span><span><b>rub</b> to feed</span><span class="guide-dot">·</span><span><b>rest</b> to quiet</span><span class="guide-dot last-dot">·</span><span class="last-guide"><b>drag a waist</b> to catch</span></div>
+    </footer>
+  </main>
+
+  <aside id="inspector" class="inspector" hidden aria-label="Simulation diagnostics">
+    <div class="inspector-head"><span>inside the sound</span><button id="inspect-close" aria-label="Close diagnostics">×</button></div>
+    <div class="energy-bars"><div><span>left</span><i><b id="bar-0"></b></i></div><div><span>middle</span><i><b id="bar-1"></b></i></div><div><span>right</span><i><b id="bar-2"></b></i></div></div>
+    <dl><dt>stored motion</dt><dd id="read-n">0.000</dd><dt>pickup cancellation</dt><dd id="read-c">—</dd><dt>waists</dt><dd id="read-k">100% / 100%</dd><dt>flow</dt><dd id="read-j">0.000 / 0.000</dd><dt>balance error</dt><dd id="read-error">0</dd></dl>
+    <p>The skin shows local vibration. Your ears hear the sum. Opposite motion can cancel.</p>
+    <button class="export-button" id="export-log">Save recent diagnostics</button>
+  </aside>
+
+  <dialog id="help" aria-labelledby="help-title">
+    <button id="help-close" class="dialog-close icon-button" aria-label="Close instructions">×</button>
+    <span class="eyebrow">a small field guide</span>
+    <h2 id="help-title">Follow what remains.</h2>
+    <p class="help-intro">Three pockets share a living vibration. A sound can become quiet without being gone.</p>
+    <div class="help-gestures">
+      <div><span class="gesture-number">01</span><div><h3>Wake the skin</h3><p>Tap any pocket. Rub it to feed the motion. Rest a finger or hold the mouse still to absorb it.</p></div></div>
+      <div><span class="gesture-number">02</span><div><h3>Catch the movement</h3><p>Drag either narrow waist. Up opens it; down closes it. On a vertical pod, drag right to open and left to close.</p></div></div>
+      <div><span class="gesture-number">03</span><div><h3>Find the quiet</h3><p>Open both waists fully. Tap one end, then rest on the middle for two seconds. Lift your hand. If the ends still move, change a waist and listen.</p></div></div>
+    </div>
+    <details><summary>A little further</summary><p>Close one waist and rub an end strongly. Its vibration can become reluctant to leave even when you reopen the waist. A gentle touch can help it travel.</p><p>For a quiet transfer: close the waist nearest one end and open the far waist. Tap that end gently. Over several seconds, open the near waist, then close the far one.</p></details>
+    <details><summary>What is happening?</summary><p>Three coupled nonlinear resonators retain their amplitude and phase. Moving contact feeds vibration, still contact damps it, and stronger vibration rings slightly higher. Open waists exchange the actual oscillation. Nothing schedules a hush or a release.</p><p>The sound is a fixed mono pickup with gentle saturation after summing. The soft body is a drawing, not a fluid simulation; its ridges show vibration slowed down so you can see the phase. All sound is made here in your browser.</p></details>
+    <details><summary>Keyboard &amp; running locally</summary><p><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> tap the pockets. Hold <kbd>Shift</kbd> with a number to damp. Tab to a waist and use arrow keys; Home closes it and End opens it. <kbd>M</kbd> mutes, <kbd>R</kbd> resets, <kbd>D</kbd> inspects.</p><p>Get the <a href="https://github.com/jstewdios/periodic-tables" target="_blank" rel="noopener noreferrer">Periodic Tables source</a>, then run <code>python3 -m http.server 8000 --directory dist</code> and open <code>http://localhost:8000/instruments/hushpod/</code>. No installation or build step.</p></details>
+    <details><summary>Origins, source &amp; limits</summary><p>Hushpod is an independent instrument from James Stewart’s collaborative instrument study, built with ChatGPT / Codex. This edition reuses the October 16, 2026 prototype’s simulation and sound processor unchanged, with navigation, accessibility, and audio-lifecycle improvements.</p><p>The model measures oscillator action, not mechanical energy in joules. The skin is an illustration of the model. With reduced motion enabled, brightness still follows stored vibration while the rippling displacement stops. This is an exploratory prototype, not a validated physical device.</p><p><a href="https://github.com/jstewdios/periodic-tables/tree/main/dist/instruments/hushpod" target="_blank" rel="noopener noreferrer">Source &amp; integration notes</a> · <a href="../../LICENSE.txt" target="_blank" rel="noopener noreferrer">MIT license</a> · <a href="../../THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener noreferrer">Provenance</a>. No imported recordings, fonts, or artwork; sound is synthesized in your browser. The wider study record is still being preserved.</p></details>
+    <button class="return-button" id="help-play">Back to the pod <span>↗</span></button>
+  </dialog>
+  <script type="module" src="app.mjs"></script>
+  <noscript><p>Hushpod needs JavaScript and Web Audio to play. <a href="../">Return to the instrument collection.</a></p></noscript>
+</body>
+</html>
