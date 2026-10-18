@@ -8,7 +8,10 @@ export async function enableAudio(){
   const AudioContext=globalThis.AudioContext??globalThis.webkitAudioContext;
   if(!AudioContext)throw new Error('Audio is not supported in this browser.');
   if(!context){context=new AudioContext();master=context.createGain();master.gain.value=.2;master.connect(context.destination);}
-  if(context.state!=='running')await context.resume();
+  const ctx=context,id=generation;
+  if(ctx.state!=='running')await ctx.resume();
+  if(ctx!==context||id!==generation){if(ctx===context&&ctx.state==='running')await ctx.suspend();return false;}
+  return true;
 }
 export function pitchFor(element,mode){
   if(mode==='pull')return element.electronegativity==null?null:48+(element.electronegativity-.7)/3.3*36;
@@ -29,9 +32,11 @@ export function playElement(element,mode='families'){
   oscillator.start(now);oscillator.stop(now+.7);
 }
 export function stopSequence(){generation++;timers.forEach(clearTimeout);timers=[];for(const oscillator of active){try{oscillator.stop();}catch{}}active.clear();}
+export function suspendAudio(){stopSequence();return context?.suspend().catch(()=>{});}
+export function disposeAudio(){stopSequence();const ctx=context;context=null;master=null;ctx?.close().catch(()=>{});}
 export async function playSequence(elements,mode,onNote,onEnd){
   stopSequence();const id=generation;
-  await enableAudio();if(id!==generation)return;
+  if(!await enableAudio()||id!==generation)return;
   elements.forEach((element,i)=>timers.push(setTimeout(()=>{if(id!==generation)return;playElement(element,mode);onNote(element);},i*230)));
   timers.push(setTimeout(()=>{if(id===generation){timers=[];onEnd();}},elements.length*230+300));
 }

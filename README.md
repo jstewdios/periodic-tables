@@ -1,12 +1,14 @@
 # Periodic Tables
 
-A collection of playable learning instruments for discovering visual patterns in the elements and exploring the compounds they form.
+A playground for playable scientific and musical instruments. Discover patterns in the elements, explore compounds, or catch and reveal vibration with Hushpod.
 
 [Try the current app](https://periodic-tables-pied.vercel.app/) · [Contribute](CONTRIBUTING.md) · [MIT license](LICENSE)
 
 The registered primary domain is [periodictables.xyz](https://periodictables.xyz/); use the Vercel link until its HTTPS setup is confirmed.
 
 ## The first collection
+
+Open **Instruments** in the chemistry navigation, or go straight to `/instruments/`. The collection currently contains chemistry and **Hushpod**, a self-contained, touch-playable coupled-resonator prototype. Each keeps its own interface, source, and credits. Existing chemistry URLs and saved discoveries are unchanged.
 
 - **The table:** all 118 elements; family colors, electron-pull gradients, room-temperature states, and atomic number; element details, source links, arrow-key navigation, and optional sonification.
 - **Compound workbench:** tap or drag elements, adjust atom counts, and explore 14 authored compositions. Molecular models show connectivity; ionic/network solids show ratios. Unmatched compositions stay open questions.
@@ -55,4 +57,4 @@ One useful question or correction can make a good contribution. Read the short [
 
 Changes to scientific matching or data should retain the core guarantees in `tests/chemistry.test.js`: no invented values, no simplified molecular formulas, no fictitious molecules for extended solids, and no claim that an unmatched composition is impossible.
 
-Initial validation covers syntax, static assets, source consistency, exact formula matching, diagram inventories, trail targets, and audio mapping. Browser visual and end-to-end QA are not part of that check; verify the main flows on the devices you plan to support before a broad public launch.
+Validation includes chemistry checks, Hushpod's original model and processor checks, and audio lifecycle regression tests. An optional browser smoke runner exercises the real pages and AudioWorklet. See [instrument architecture and contributor notes](docs/INSTRUMENTS.md), [Hushpod provenance](docs/hushpod-provenance.json), and the [first-slice test record](docs/INSTRUMENT_TESTING.md). Real Android and iOS testing remains a release follow-up; emulation does not establish speaker quality or OS interruption behavior.

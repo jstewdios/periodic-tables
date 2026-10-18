@@ -1,0 +1,61 @@
+{
+  "instrument": "Hushpod",
+  "imported_on": "2026-10-18",
+  "original_source_commit": "e02ad3ea211228abbf36c48c4dfc1b409907c988",
+  "original_site_url": "https://hushpod.jstewdios.chatgpt.site",
+  "original_site_version": 1,
+  "attribution": "James Stewart; ChatGPT / Codex independent prototype",
+  "license_note": "Owner-provided AI-assisted original, contributed under this repository's MIT license at the owner's request. The original snapshot had no separate license file. No third-party recordings, fonts, images or JavaScript were imported.",
+  "original_readme": "docs/HUSHPOD_ORIGINAL.md",
+  "study_record_status": "Original prompts, cross-reviews and full study-level attribution are not included in this integration and remain to be archived.",
+  "files": [
+    {
+      "original_path": "dist/index.html",
+      "path": "dist/instruments/hushpod/index.html",
+      "original_sha256": "67e1242f217aa006af25014c7026483bb1a1c8c276cd59b76a87d44d1a58a5f5",
+      "modified": true
+    },
+    {
+      "original_path": "dist/style.css",
+      "path": "dist/instruments/hushpod/style.css",
+      "original_sha256": "50091dc11f0078705f545a8c3616387c0bda056dcd0450a866e1f8641a6d4956",
+      "modified": true
+    },
+    {
+      "original_path": "dist/icon.svg",
+      "path": "dist/instruments/hushpod/icon.svg",
+      "original_sha256": "fb895ecc15857428448d1c3f9be5a620ee309d095c54e4e1bf9730cbd91d6732",
+      "modified": false
+    },
+    {
+      "original_path": "dist/app.mjs",
+      "path": "dist/instruments/hushpod/app.mjs",
+      "original_sha256": "9e948092bb90adb7d63a80f186edfa312beb70f79d89f39dda24b573815ac181",
+      "modified": true
+    },
+    {
+      "original_path": "dist/audio.mjs",
+      "path": "dist/instruments/hushpod/audio.mjs",
+      "original_sha256": "927547c4857db6cc27fe383d903ba7e92329591f9108b93b364af85f288d0378",
+      "modified": true
+    },
+    {
+      "original_path": "dist/model.mjs",
+      "path": "dist/instruments/hushpod/model.mjs",
+      "original_sha256": "b7f9e5b0b5369c41ab48ff845fd993758dbe2e94a8403440d4d1a91ac013fc82",
+      "modified": false
+    },
+    {
+      "original_path": "dist/worklet.mjs",
+      "path": "dist/instruments/hushpod/worklet.mjs",
+      "original_sha256": "9ad40e671ca9b242111453b988f7dcba56973736a15d71cccb9334e9c2e52306",
+      "modified": false
+    },
+    {
+      "original_path": "dist/skin.mjs",
+      "path": "dist/instruments/hushpod/skin.mjs",
+      "original_sha256": "93230f35be4aadbff6cb29a12684e87c5d5a3890b1223e8dcaea70c96352cc4d",
+      "modified": true
+    }
+  ]
+}

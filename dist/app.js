@@ -1,6 +1,6 @@
 import { elements, bySymbol } from './elements.js';
 import { families, elementNotes, compounds, compoundById, MAX_ATOMS, atomCount, formulaText, matchCompound, suggestions, everyday, trails } from './chemistry.js';
-import { enableAudio, playElement, playSequence, stopSequence } from './audio.js';
+import { enableAudio, playElement, playSequence, stopSequence, suspendAudio, disposeAudio } from './audio.js';
 
 const $ = selector => document.querySelector(selector);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -183,7 +183,7 @@ document.addEventListener('click',async event=>{
     case 'family':state.family=state.family===button.dataset.family?null:button.dataset.family;render();break;
     case 'sound':
       if(state.sound){state.sound=false;state.playing=false;stopSequence();render();break;}
-      try{await enableAudio();state.sound=true;playElement(bySymbol[state.selected],state.mode);render();}catch{toast('Sound could not start in this browser. The visual instruments are still available.');}break;
+      try{if(!await enableAudio())break;state.sound=true;playElement(bySymbol[state.selected],state.mode);render();}catch{toast('Sound could not start in this browser. The visual instruments are still available.');}break;
     case 'play-row':
       if(state.playing){stopSequence();state.playing=false;render();break;}
       state.sound=true;state.playing=true;render();
@@ -221,8 +221,9 @@ document.addEventListener('dragover',event=>{const zone=event.target.closest('#d
 document.addEventListener('dragleave',event=>{const zone=event.target.closest('#drop-zone');if(zone&&!zone.contains(event.relatedTarget))zone.classList.remove('drag-over');});
 document.addEventListener('drop',event=>{const zone=event.target.closest('#drop-zone');if(zone){event.preventDefault();zone.classList.remove('drag-over');const symbol=event.dataTransfer.getData('application/x-periodic-element');if(bySymbol[symbol])changeAtom(symbol,1);}});
 window.addEventListener('hashchange',()=>{stopSequence();state.playing=false;state.route=routes.includes(location.hash.slice(1))?location.hash.slice(1):'table';render();$('#main').focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopSequence();state.playing=false;}else if(state.route==='table'&&$('#element-detail')){$('#element-detail').innerHTML=renderElementDetail();document.querySelectorAll('.sounding').forEach(el=>el.classList.remove('sounding'));}});
-window.addEventListener('pagehide',stopSequence);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){suspendAudio();state.sound=false;state.playing=false;}else{render();}});
+window.addEventListener('pagehide',()=>{disposeAudio();state.sound=false;state.playing=false;});
+window.addEventListener('pageshow',event=>{if(event.persisted)render();});
 window.addEventListener('storage',event=>{if(event.key===storageKey||event.key===null){state.collection=readCollection();render();}});
 $('#sources-dialog').addEventListener('click',event=>{if(event.target===$('#sources-dialog')){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)event.target.close();}});
 render();

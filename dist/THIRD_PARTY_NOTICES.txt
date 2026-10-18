@@ -31,4 +31,12 @@ The app links to RSC element guides, IUPAC, and PubChem compound records for fur
 
 The app has no bundled third-party JavaScript packages. Platform APIs, such as Web Audio and local storage, are browser features rather than redistributed libraries. No affiliation with or endorsement by the reference organizations is implied.
 
+## Hushpod independent prototype
+
+`dist/instruments/hushpod/` incorporates James Stewart's owner-provided, AI-assisted Hushpod prototype, built with ChatGPT / Codex during the collaborative instrument study. The source snapshot is the October 16, 2026 version, commit `e02ad3ea211228abbf36c48c4dfc1b409907c988`. It is contributed here under this repository's MIT license at the owner's request. The supplied snapshot did not carry a separate license file; no third-party license has been overwritten or inferred for unrelated study contributions.
+
+The model and AudioWorklet processor are imported without modification. Changes to the interface, lifecycle, and renderer are recorded in `docs/hushpod-provenance.json`; `docs/HUSHPOD_ORIGINAL.md` preserves the original README. No sampled sounds, third-party fonts, external images, or third-party JavaScript are imported with Hushpod. Its sound is synthesized, and its visual skin is drawn in Canvas. The original source download ZIP and hosting identity are not redistributed.
+
+The broader study's original prompts, cross-reviews, and other participants' artifacts are not part of this import. Their publication and detailed study-level attribution remain separate work. This integration does not claim authorship of, or rights over, Odd Sympathy, TAUT, Phaseweave, or other independent experiments.
+
 Local copies in this distribution: LICENSE.txt, fonts/DM-Sans-OFL.txt, fonts/Manrope-OFL.txt.
