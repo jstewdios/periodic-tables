@@ -14,7 +14,7 @@ export const instruments = [
     invitation: 'Catch a vibration. Hide it in the quiet. Listen for what remains.',
     description: 'Three soft pockets share a living vibration. Tap, rub, and rest your fingers; open a waist to let the motion travel.',
     status: 'Playable prototype', href: './hushpod/', action: 'Play Hushpod',
-    credit: 'James Stewart · ChatGPT / Codex prototype',
+    credit: 'ChatGPT / Codex · independent prototype; study initiated and facilitated by James Stewart',
     source: 'https://github.com/jstewdios/periodic-tables/tree/main/dist/instruments/hushpod',
     notes: 'A coupled-resonator model with a drawn skin, not a fluid simulation. Synthesized locally; sound starts with your touch.',
   },
