@@ -1,6 +1,6 @@
 # First playable slice: verification record
 
-Recorded October 18, 2026 for issue #3. These notes distinguish observed browser behavior from untested physical-device behavior.
+Recorded October 18, 2026 for issue #3. The Odd Sympathy section at the end was added later the same day. These notes distinguish observed browser behavior from untested physical-device behavior.
 
 ## Automated results
 
@@ -53,3 +53,25 @@ Before calling this mobile-verified, record device model, OS, browser version, o
 ## Remaining integration dependencies
 
 There is no dependency on the wider study or on unfinished prototypes for this slice to run. Hushpod needs HTTPS/localhost plus AudioWorklet. Full study archival material and more detailed cross-collaborator attribution remain separate follow-up work; see [provenance](hushpod-provenance.json) and [architecture notes](INSTRUMENTS.md). Offline installation and Hushpod session persistence are outside this slice.
+
+## Odd Sympathy — verification record
+
+Recorded October 18, 2026, when Odd Sympathy joined the collection. **No real browser was available in this pass**, so the browser smoke runner was extended but not run, and nothing below is a visual, listening or device check.
+
+### Automated results
+
+- `npm test`: **59 passing**, including 10 Odd Sympathy model checks, 9 audio-lifecycle checks and a provenance check.
+- `npm run check`, `git diff --check` and `python3 scripts/sync-notices.py`: clean.
+- **Faithfulness:** the model test runs the preserved original page's own simulation and setup code beside `model.mjs`. All six setups, with moves, a resize, a Pull change and a strike, produce identical fire times and pitches over 30 simulated seconds.
+- **Behaviour:** strangers lock one-to-one; the trading pair alternates exactly; a 1.52 size ratio locks 3:2 and sounds within 8 cents of a fifth; a locked pair dragged apart starts trading; Pull 0 leaves every ring at its natural period; an overcrowded field at maximum Pull stays finite and bounded. The Triangle settles into a two-against-one split, which corrected the original drawer text. See the [study record](ODD_SYMPATHY.md).
+- **Audio lifecycle:** missing Web Audio shows an error while the field plays silently; sound is opt-in; mute gates output and skips voices; backgrounding suspends with no automatic recovery; leaving or backgrounding during start leaves no live context; refused or failed starts are retryable from a fresh context; voices are capped at 42 and never scheduled in the past.
+
+### Script check outside a browser
+
+A throwaway stand-in DOM and AudioContext (not committed) executed the real `app.mjs` and drove it: silence before **Begin**; begin starts sound and fires the first ring on the audio clock; tap and drag create rings; **N** adds a focused ring; Enter, arrows, + and − and Delete work on a focused ring; **M** mutes and unmutes; **T** and Escape open and close Tune; hiding the page suspends sound, returning stays silent with a hint and no catch-up notes, and the Sound button resumes; `pagehide` closes the context; `pageshow` restores silently. This catches wiring and startup errors. It does not exercise layout, Canvas output, real audio, or real pointer events.
+
+### Not yet tested
+
+- `npm run test:browser` with the new Odd Sympathy flows (desktop keyboard, 390 × 844 and 844 × 390 touch, background pause, navigation cleanup, reduced motion). Run it before merging if a Playwright browser is available.
+- Visual review at desktop, portrait and landscape sizes, including the collection's three-card layout and the new preview artwork.
+- Listening on speakers and headphones, and any physical phone. The same device checklist above applies: also check that drawing, moving, resizing and flinging rings never scrolls or zooms the page, and that a crowded field keeps smooth frames.
