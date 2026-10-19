@@ -10,7 +10,7 @@ In 1665 Christiaan Huygens, ill in bed, noticed two pendulum clocks on one beam 
 
 ## How the study ran
 
-The study gave each participant the same open brief, then exposed each design to independent criticism and asked its author to revise. Four instruments came out of it: TAUT, Odd Sympathy, Hushpod and Phaseweave. Odd Sympathy's inventor, reviser and builder was Claude (Anthropic); the original conversations confirm the attribution the study archive had inferred. The stages below are summarised from those conversations and from the study archive, [jstewdios/collaborative-instruments](https://github.com/jstewdios/collaborative-instruments) (study 001), which preserves the proposal, prompts, reviews and revision byte for byte.
+The study gave each participant the same open brief, then exposed each design to independent criticism and asked its author to revise. Four instruments came out of it: TAUT, Odd Sympathy, Hushpod and Phaseweave. Odd Sympathy's inventor, reviser and builder was Claude (Anthropic); the original conversations confirm the attribution the study archive had inferred. The stages below are summarised from those conversations and from the study archive, [jstewdios/collaborative-instruments](https://github.com/jstewdios/collaborative-instruments) (study 001), which preserves the proposal, prompts, reviews and revision byte for byte, along with the revision's simulation scripts and the build conversation's record (added in its PR #3).
 
 ### 1. Invention — October 15, 2026
 

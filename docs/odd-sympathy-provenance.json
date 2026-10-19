@@ -15,7 +15,7 @@
     "note": "Preserved byte for byte as served. The first line is the artifact host's document wrapper; the authored page starts at <title>. Opening it locally requests Google Fonts; it is an archive, not part of the deployed site."
   },
   "study_record": "docs/ODD_SYMPATHY.md",
-  "study_record_status": "docs/ODD_SYMPATHY.md summarises the study; the original proposal, prompts, reviews and revision are archived in jstewdios/collaborative-instruments. The build conversation and the revision's simulation scripts are not yet in that archive.",
+  "study_record_status": "docs/ODD_SYMPATHY.md summarises the study; the original proposal, prompts, reviews and revision are archived in jstewdios/collaborative-instruments. Records from the Odd Sympathy conversations (the invention prompt as received, the revision's six simulation scripts, the build-stage rule check, confirmed authorship and chronology) are added to that archive by jstewdios/collaborative-instruments PR #3; the scripts' original printed outputs were not preserved.",
   "files": [
     {
       "path": "dist/instruments/odd-sympathy/model.mjs",
