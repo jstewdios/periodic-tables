@@ -68,7 +68,7 @@ try {
   assert.equal(await page.evaluate(()=>testContexts[0].state),'running');
   await page.getByRole('link',{name:'Instruments',exact:true}).click();
   await page.locator('.instrument-card').first().waitFor();
-  assert.equal(await page.locator('.instrument-card').count(),2);assert.equal(await page.evaluate(()=>localStorage.getItem('test-closed-contexts')),'1');
+  assert.equal(await page.locator('.instrument-card').count(),3);assert.equal(await page.evaluate(()=>localStorage.getItem('test-closed-contexts')),'1');
   await screenshot(page,'collection-desktop');await page.getByRole('link',{name:'Play Hushpod'}).click();
   await page.locator('#stage').waitFor();
   assert.equal(await page.evaluate(()=>testContexts.length),0);await screenshot(page,'hushpod-desktop');
@@ -112,7 +112,37 @@ try {
     await phone.reload();assert.equal(await phone.locator('#begin').isVisible(),true);assert.equal(await phone.evaluate(()=>testContexts.length),0);
     await context.close();console.log(`PASS touch ${width}×${height}: real worklet, multitouch, cancellation, rotate, pause/resume, navigation`);
   }
+  // Odd Sympathy: opt-in sound, keyboard play, drawer, touch creation, background pause and navigation cleanup.
+  for(const [width,height,touchDevice] of [[1440,1000,false],[390,844,true],[844,390,true]]) {
+    const context=await browser.newContext({viewport:{width,height},isMobile:touchDevice,hasTouch:touchDevice,deviceScaleFactor:touchDevice?2:1});await monitor(context);
+    const page=await context.newPage();await page.goto(origin+'/instruments/odd-sympathy/');await page.locator('#begin').waitFor();await noOverflow(page);
+    assert.equal(await page.evaluate(()=>testContexts.length),0,'silent before a gesture');
+    for(const selector of ['#begin','#sound-btn','#tune-btn']){const box=await page.locator(selector).boundingBox();assert.ok(box.width>=44&&box.height>=44,selector+' touch target');}
+    await screenshot(page,`odd-sympathy-intro-${width}`);
+    if(touchDevice)await page.locator('#begin').tap();else await page.locator('#begin').click();
+    await waitFor(()=>page.locator('#intro').isHidden(),'intro dismissed');
+    await waitFor(()=>page.evaluate(()=>testContexts[0]?.state==='running'),'sound running');
+    assert.equal(await page.locator('.ring-target').count(),1);
+    if(touchDevice){const b=await page.locator('#field').boundingBox();await page.touchscreen.tap(b.x+b.width*.25,b.y+b.height*.7);}
+    else await page.keyboard.press('n');
+    await waitFor(async()=>await page.locator('.ring-target').count()===2,'second ring');
+    await page.locator('.ring-target').first().focus();await page.keyboard.press('Enter');await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('m');assert.equal(await page.locator('#sound-btn').getAttribute('aria-label'),'Unmute sound');await page.keyboard.press('m');
+    await page.keyboard.press('t');await page.locator('#drawer').waitFor();await page.locator('[data-setup="trading"]').click();
+    assert.equal(await page.locator('#drawer').isHidden(),true);assert.equal(await page.locator('.ring-target').count(),2);
+    await pause(400);await screenshot(page,`odd-sympathy-${width}`);
+    await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});
+    await waitFor(()=>page.evaluate(()=>testContexts[0].state==='suspended'),'background pause');
+    await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:false});document.dispatchEvent(new Event('visibilitychange'));});
+    assert.equal(await page.evaluate(()=>testContexts[0].state),'suspended','no automatic resume');
+    await page.locator('#sound-btn').click();await waitFor(()=>page.evaluate(()=>testContexts[0].state==='running'),'explicit resume');
+    await page.getByRole('link',{name:'← Instruments'}).click();await page.locator('.instrument-card').first().waitFor();
+    assert.equal(await page.evaluate(()=>localStorage.getItem('test-closed-contexts')),'1');
+    await page.goBack();await page.locator('#field').waitFor();assert.equal(await page.evaluate(()=>testContexts.filter(c=>c.state==='running').length),0,'silent on return');
+    await context.close();console.log(`PASS Odd Sympathy ${width}×${height}`);
+  }
   const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});await monitor(context);
-  const page2=await context.newPage();await page2.goto(origin+'/instruments/hushpod/');await page2.locator('#begin').click();await waitFor(()=>page2.locator('#begin').isHidden(),'reduced motion sound');await screenshot(page2,'hushpod-reduced-motion');await context.close();
+  const page2=await context.newPage();await page2.goto(origin+'/instruments/hushpod/');await page2.locator('#begin').click();await waitFor(()=>page2.locator('#begin').isHidden(),'reduced motion sound');await screenshot(page2,'hushpod-reduced-motion');
+  await page2.goto(origin+'/instruments/odd-sympathy/');await page2.locator('#begin').click();await waitFor(()=>page2.locator('#intro').isHidden(),'reduced motion odd sympathy');await pause(600);await screenshot(page2,'odd-sympathy-reduced-motion');await context.close();
   assert.deepEqual(errors,[]);console.log('PASS reduced motion and no browser exceptions or failed asset requests');
 } finally {await browser.close();server.close();}

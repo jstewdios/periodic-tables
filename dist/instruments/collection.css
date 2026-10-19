@@ -5,7 +5,7 @@ main{max-width:1220px;padding-top:clamp(2.5rem,6vw,5rem)}
 .collection-intro h1{font-size:clamp(2.25rem,5.5vw,4.2rem);line-height:1.12;margin:1rem 0 1.4rem}
 .collection-intro h1 span{color:var(--accent)}
 .collection-intro p{max-width:560px;font-size:1.05rem}
-.instruments{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem}
+.instruments{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
 .instrument-card{border:1px solid var(--border);border-radius:20px;background:var(--surface);overflow:hidden}
 .instrument-preview{height:195px;display:flex;align-items:center;justify-content:center;gap:12px;border-bottom:1px solid var(--border);background:radial-gradient(ellipse at 50% 100%,#303d37,transparent 75%)}
 .chemistry .instrument-preview span{width:77px;height:91px;border:1px solid #749680;border-radius:8px;padding:7px 10px;font-size:.8rem;background:#263a32;color:#c5ead1;transform:rotate(-8deg)}
@@ -15,6 +15,12 @@ main{max-width:1220px;padding-top:clamp(2.5rem,6vw,5rem)}
 .hushpod .instrument-preview{background:radial-gradient(ellipse at 50% 50%,#293a3b,#101c20)}
 .instrument-preview svg{width:85%;max-width:360px;fill:#b9c7b612;stroke:url(#pod-glow);stroke-width:1.2}
 .instrument-preview .pod-wave{fill:none;stroke-width:1.6;opacity:.6}
+.odd-sympathy .instrument-preview{background:radial-gradient(ellipse at 50% 50%,#1a2328,#0b0f12)}
+.odd-sympathy .instrument-preview svg{fill:none;stroke:none}
+.odd-sympathy .os-ripples circle{stroke:#ece6d5;stroke-width:1;opacity:.12}
+.odd-sympathy .os-thread{stroke:#e2bf6e;stroke-width:1;opacity:.45}
+.odd-sympathy .os-ring{stroke-width:1.6}.odd-sympathy .os-ring.os-a{stroke:#e2bf6e}.odd-sympathy .os-ring.os-b{stroke:#8fc7c0}
+.odd-sympathy .os-bead.os-a{fill:#f6e6bd}.odd-sympathy .os-bead.os-b{fill:#d6f1ec}
 .instrument-copy{padding:1.6rem}
 .card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:1rem}
 .card-meta .eyebrow{font-size:.65rem;letter-spacing:.08em}

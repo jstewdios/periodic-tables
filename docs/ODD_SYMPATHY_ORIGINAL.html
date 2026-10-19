@@ -1,0 +1,564 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Odd Sympathy</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Karla:wght@400;500;600&display=swap">
+<style>
+/* Layout: one full-bleed night field drawn on canvas; a wordmark, a Tune button and a hint float at the edges, clear of the phone's safe areas. Single dark world by design. */
+:root {
+  --night: #0b0f12;
+  --panel: #131a1f;
+  --line: #2a343c;
+  --chalk: #ece6d5;
+  --dim: #919a93;
+  --brass: #e2bf6e;
+  --brass-ink: #1b1508;
+  --display: "IM Fell English", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --body: Karla, "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--night);
+  color: var(--chalk);
+  font-family: var(--body);
+  overflow: hidden;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#field { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; }
+
+.mark {
+  position: fixed; pointer-events: none;
+  top: calc(env(safe-area-inset-top, 0px) + 14px);
+  left: max(16px, env(safe-area-inset-left, 0px));
+  font-family: var(--display); font-size: 20px; letter-spacing: 0.01em; color: var(--chalk); opacity: 0.62;
+}
+.tune {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 10px);
+  right: max(16px, env(safe-area-inset-right, 0px));
+}
+button {
+  font-family: var(--body); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--chalk); background: var(--panel); border: 1px solid var(--line); border-radius: 999px;
+  padding: 9px 15px; cursor: pointer;
+}
+button:hover { border-color: var(--dim); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+button[aria-pressed="true"] { background: var(--brass); color: var(--brass-ink); border-color: var(--brass); }
+
+.drawer {
+  position: fixed; z-index: 5;
+  top: calc(env(safe-area-inset-top, 0px) + 58px);
+  right: max(16px, env(safe-area-inset-right, 0px));
+  width: min(330px, calc(100vw - 32px));
+  max-height: calc(100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 80px);
+  overflow-y: auto;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: 18px; display: grid; gap: 20px; box-sizing: border-box;
+}
+.drawer h2 { margin: 0 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); display: flex; justify-content: space-between; }
+.drawer h2 output { font-variant-numeric: tabular-nums; color: var(--chalk); letter-spacing: 0.04em; }
+.drawer p { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--dim); }
+.drawer input[type=range] { width: 100%; accent-color: var(--brass); }
+.setups { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.setups button, .row button { text-transform: none; letter-spacing: 0.01em; font-size: 14px; font-weight: 500; border-radius: 10px; padding: 10px 12px; text-align: left; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.hint {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+  width: min(36ch, calc(100vw - 40px)); text-align: center; pointer-events: none;
+  font-family: var(--display); font-style: italic; font-size: 18px; line-height: 1.35; color: var(--chalk);
+  opacity: 0; transition: opacity 0.8s ease;
+  text-wrap: balance;
+}
+.hint.on { opacity: 0.82; }
+
+.intro {
+  position: fixed; inset: 0; z-index: 10; display: grid; place-items: center;
+  background: radial-gradient(ellipse at center, rgba(11, 15, 18, 0.55), rgba(11, 15, 18, 0.92) 70%);
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.intro-inner { max-width: 30rem; text-align: center; display: grid; gap: 18px; justify-items: center; }
+.intro h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(44px, 12vw, 76px); line-height: 0.95; text-wrap: balance; }
+.intro .story { margin: 0; font-family: var(--display); font-style: italic; font-size: 19px; line-height: 1.45; color: var(--chalk); opacity: 0.86; text-wrap: balance; }
+.intro .how { margin: 0; font-size: 14px; line-height: 1.5; color: var(--dim); max-width: 34ch; }
+.intro button { margin-top: 6px; font-size: 14px; padding: 13px 24px; background: var(--brass); color: var(--brass-ink); border-color: var(--brass); }
+
+@media (prefers-reduced-motion: reduce) { .hint { transition: none; } }
+</style>
+
+<canvas id="field" aria-label="Odd Sympathy play field. Drag to draw rings that tick, ripple and fall into step."></canvas>
+<div class="mark" aria-hidden="true">Odd Sympathy</div>
+<button class="tune" id="tuneBtn" aria-expanded="false" aria-controls="drawer">Tune</button>
+
+<div class="drawer" id="drawer" hidden>
+  <section>
+    <h2><label for="pull">Pull</label><output id="pullOut" for="pull">0.22</output></h2>
+    <input type="range" id="pull" min="0" max="0.6" step="0.01" value="0.22">
+    <p>How hard a ripple tugs a bead. Too little and nothing agrees. Too much and everything collapses into one beat.</p>
+  </section>
+  <section>
+    <h2>Setups</h2>
+    <div class="setups">
+      <button data-setup="strangers">Two strangers</button>
+      <button data-setup="fifth">Near a fifth</button>
+      <button data-setup="trading">Trading</button>
+      <button data-setup="triangle">Triangle</button>
+      <button data-setup="cascade">Cascade</button>
+      <button data-setup="crowd">A crowd</button>
+    </div>
+    <p>Each one clears the field. Strangers find each other. Trading pair alternates because of distance. The triangle can never settle.</p>
+  </section>
+  <section>
+    <h2>Show</h2>
+    <div class="row">
+      <button id="notesBtn" aria-pressed="false">Note names</button>
+      <button id="soundBtn" aria-pressed="true">Sound</button>
+      <button id="clearBtn">Clear field</button>
+    </div>
+  </section>
+</div>
+
+<div class="hint" id="hint" aria-live="polite"></div>
+
+<div class="intro" id="intro">
+  <div class="intro-inner">
+    <h1>Odd Sympathy</h1>
+    <p class="story">In 1665 Huygens, sick in bed, saw two clocks on one beam swinging in step. He knocked them apart. Within half an hour they had found each other again.</p>
+    <p class="how">Each ring here is a clock. Its size sets its tempo and its note. Every tick sends out a ripple that tugs on its neighbours.</p>
+    <button id="begin">Begin with sound</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  // ---------- field & units ----------
+  const cv = document.getElementById('field');
+  const g = cv.getContext('2d');
+  let W = 0, H = 0, DPR = 1, u = 1, vignette = null;
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    g.setTransform(DPR, 0, 0, DPR, 0, 0);
+    vignette = g.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.2, W / 2, H / 2, Math.hypot(W, H) * 0.62);
+    vignette.addColorStop(0, 'rgba(22,30,34,0.0)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.55)');
+  }
+  resize();
+  u = Math.max(0.55, Math.min(1.5, Math.min(W, H) / 640)); // fixed for the session
+  window.addEventListener('resize', resize);
+
+  // ---------- the three rules ----------
+  // 1. bead speed is shared, so ring size = period; pitch = firing rate x 256 (eight octaves up)
+  // 2. ripples leave the rim and travel slowly, fading to nothing at RANGE
+  // 3. a ripple tugs the bead toward the top along the shorter way
+  const P = { v: 360, c: 240, range: 500, eps: 0.22 };
+  const LA = 0.035; // audio lookahead, seconds
+  const rings = [], pulses = [], threads = [];
+  let nextId = 1, simT = 0, running = false, showNotes = false, soundOn = true;
+
+  const period = r => 2 * Math.PI * r.r / (P.v * u);
+  const natFreq = r => 256 / period(r);
+  const freq = r => natFreq(r) * r.corr; // pitch follows the rhythm the ring actually keeps
+  const minR = () => 12 * u;
+  const maxR = () => Math.min(270 * u, Math.min(W, H) * 0.47);
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+  function makeRing(x, y, r, phi = 0) {
+    const ring = { id: nextId++, x, y, r, phi, lastFire: -9, accent: 0, tugT: -9, tugFrom: 0, tugTo: 0,
+      born: simT, dying: false, dieT: 0, emaAct: null, emaNat: null, corr: 1 };
+    rings.push(ring);
+    return ring;
+  }
+
+  function arrival(p, r) {
+    if (r.id === p.src || r.dying || p.hit.has(r.id)) return null;
+    const gap = Math.max(0, Math.hypot(r.x - p.x, r.y - p.y) - p.r0 - r.r);
+    if (gap > P.range * u) return null;
+    return { t: p.t0 + gap / (P.c * u), s: 1 - gap / (P.range * u) };
+  }
+
+  function fire(r, accent, ev, T) {
+    // track the rhythm the ring really keeps vs. the one its size implies
+    if (r.lastFire > -1) {
+      const act = simT - r.lastFire, nat = period(r);
+      if (act > 0.02) {
+        r.emaAct = r.emaAct === null ? act : r.emaAct + 0.2 * (act - r.emaAct);
+        r.emaNat = r.emaNat === null ? nat : r.emaNat + 0.2 * (nat - r.emaNat);
+        r.corr = clamp(r.emaNat / r.emaAct, 0.85, 1.18);
+      }
+    }
+    r.phi = 0; r.lastFire = simT; r.accent = accent;
+    pluck(simT, freq(r), r.x, accent);
+    const p = { x: r.x, y: r.y, r0: r.r, t0: simT, src: r.id, hit: new Set(), f: freq(r) };
+    pulses.push(p);
+    if (ev) {
+      for (const o of rings) { const a = arrival(p, o); if (a && a.t <= T) ev.push({ t: Math.max(a.t, simT), p, r: o, s: a.s }); }
+      ev.sort((a, b) => a.t - b.t);
+    }
+    for (const o of rings) {
+      if (o !== r && !o.dying && simT - o.lastFire < 0.025) { threads.push({ a: r, b: o, t: simT }); onLock(); }
+    }
+    if (pulses.length > 500) pulses.shift();
+    if (threads.length > 120) threads.shift();
+  }
+
+  function apply(e, ev, T) {
+    const { p, r, s } = e;
+    if (p.hit.has(r.id) || r.dying) return;
+    p.hit.add(r.id);
+    const phi = r.phi;
+    // phase response: pulled back early in the lap, pushed forward late; barely moved just after firing
+    const n = phi + P.eps * s * phi * (2 * phi - 1);
+    r.tugT = simT; r.tugFrom = phi; r.tugTo = Math.min(n, 1);
+    if (n >= 1) fire(r, 0.35 + 0.65 * s, ev, T);
+    else r.phi = Math.max(0, n);
+  }
+
+  function advance(T) {
+    const ev = [];
+    for (const p of pulses) for (const r of rings) {
+      const a = arrival(p, r);
+      if (a && a.t <= T) ev.push({ t: Math.max(a.t, simT), p, r, s: a.s });
+    }
+    ev.sort((a, b) => a.t - b.t);
+    for (let guard = 0; guard < 20000; guard++) {
+      let rf = null, tf = Infinity;
+      for (const r of rings) {
+        if (r.dying) continue;
+        const t = simT + Math.max(0, 1 - r.phi) * period(r);
+        if (t < tf) { tf = t; rf = r; }
+      }
+      while (ev.length && (ev[0].p.hit.has(ev[0].r.id) || ev[0].r.dying)) ev.shift();
+      const te = ev.length ? ev[0].t : Infinity;
+      const tn = Math.min(tf, te);
+      if (tn > T) { step(T - simT); simT = T; break; }
+      step(tn - simT); simT = tn;
+      if (tf <= te) fire(rf, 0, ev, T); else apply(ev.shift(), ev, T);
+    }
+  }
+  function step(dt) { if (dt <= 0) return; for (const r of rings) if (!r.dying) r.phi += dt / period(r); }
+
+  // ---------- sound ----------
+  let ac = null, master = null, wet = null, wave = null, voices = 0;
+  function initAudio() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try { ac = new AC(); } catch (e) { ac = null; return; }
+    const comp = ac.createDynamicsCompressor();
+    comp.threshold.value = -20; comp.knee.value = 14; comp.ratio.value = 8; comp.attack.value = 0.003; comp.release.value = 0.25;
+    master = ac.createGain(); master.gain.value = 0.85;
+    master.connect(comp); comp.connect(ac.destination);
+    const conv = ac.createConvolver();
+    const len = Math.floor(ac.sampleRate * 2.6), buf = ac.createBuffer(2, len, ac.sampleRate);
+    for (let ch = 0; ch < 2; ch++) { const d = buf.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.4); }
+    conv.buffer = buf;
+    wet = ac.createGain(); wet.gain.value = 0.3; wet.connect(conv); conv.connect(master);
+    const real = new Float32Array([0, 1, 0.42, 0.2, 0.1, 0.05, 0.025]);
+    wave = ac.createPeriodicWave(real, new Float32Array(real.length));
+  }
+  function pluck(t, f, x, accent) {
+    if (!ac || !soundOn || ac.state !== 'running' || voices > 42) return;
+    t = Math.max(t, ac.currentTime + 0.002);
+    const amp = (0.13 + 0.2 * accent) * Math.min(1.9, Math.pow(260 / f, 0.35));
+    const dec = clamp(1.5 * Math.pow(220 / f, 0.6), 0.35, 3.2);
+    const o = ac.createOscillator(); o.setPeriodicWave(wave); o.frequency.value = f;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 0.7;
+    lp.frequency.setValueAtTime(Math.min(f * (6 + 6 * accent), 14000), t);
+    lp.frequency.exponentialRampToValueAtTime(Math.max(f * 1.4, 160), t + dec * 0.7);
+    const gn = ac.createGain();
+    gn.gain.setValueAtTime(0, t);
+    gn.gain.linearRampToValueAtTime(amp, t + 0.004);
+    gn.gain.exponentialRampToValueAtTime(0.0001, t + dec);
+    o.connect(lp); lp.connect(gn);
+    let out = gn;
+    if (ac.createStereoPanner) { const pn = ac.createStereoPanner(); pn.pan.value = clamp((x / W) * 1.6 - 0.8, -0.8, 0.8); gn.connect(pn); out = pn; }
+    out.connect(master); out.connect(wet);
+    o.start(t); o.stop(t + dec + 0.05);
+    voices++;
+    o.onended = () => { voices--; try { o.disconnect(); lp.disconnect(); gn.disconnect(); if (out !== gn) out.disconnect(); } catch (e) {} };
+  }
+  let perfBase = null;
+  function clock() {
+    if (ac && ac.state === 'running') return ac.currentTime;
+    const now = performance.now() / 1000;
+    if (perfBase === null) perfBase = now - simT;
+    return now - perfBase;
+  }
+
+  // ---------- drawing ----------
+  const NAMES = ['C', 'C♯', 'D', 'E♭', 'E', 'F', 'F♯', 'G', 'A♭', 'A', 'B♭', 'B'];
+  function noteName(f) {
+    const m = 69 + 12 * Math.log2(f / 440), n = Math.round(m), c = Math.round((m - n) * 100);
+    return NAMES[((n % 12) + 12) % 12] + (Math.floor(n / 12) - 1) + (Math.abs(c) >= 2 ? (c > 0 ? ' +' : ' −') + Math.abs(c) : '');
+  }
+  // octave-equivalent colour: rings an octave apart share a hue
+  const hue = f => (42 + ((Math.log2(f / 256) % 1 + 1) % 1) * 360) % 360;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function draw() {
+    g.fillStyle = '#0b0f12'; g.fillRect(0, 0, W, H);
+    g.fillStyle = vignette; g.fillRect(0, 0, W, H);
+    const RU = P.range * u;
+
+    // ripples
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const p = pulses[i], travel = (simT - p.t0) * P.c * u;
+      if (travel > RU) { pulses.splice(i, 1); continue; }
+      if (travel < 0) continue;
+      const a = 0.3 * (1 - travel / RU);
+      g.strokeStyle = `hsla(${hue(p.f)},55%,72%,${a.toFixed(3)})`;
+      g.lineWidth = 1.1;
+      g.beginPath(); g.arc(p.x, p.y, p.r0 + travel, 0, Math.PI * 2); g.stroke();
+    }
+
+    // sympathy threads: two rings striking within 25 ms
+    for (let i = threads.length - 1; i >= 0; i--) {
+      const th = threads[i], age = simT - th.t;
+      if (age > 0.45 || th.a.dying || th.b.dying || !rings.includes(th.a) || !rings.includes(th.b)) { threads.splice(i, 1); continue; }
+      if (age < 0) continue;
+      g.strokeStyle = `rgba(226,191,110,${(0.42 * (1 - age / 0.45)).toFixed(3)})`;
+      g.lineWidth = 1;
+      g.beginPath(); g.moveTo(th.a.x, th.a.y); g.lineTo(th.b.x, th.b.y); g.stroke();
+    }
+
+    for (const r of rings) drawRing(r);
+
+    // ring being drawn
+    for (const d of drags.values()) {
+      if (d.mode !== 'create' || !d.moved) continue;
+      const rr = clamp(d.r, minR(), maxR());
+      g.setLineDash([4, 6]); g.strokeStyle = 'rgba(236,230,213,0.55)'; g.lineWidth = 1.2;
+      g.beginPath(); g.arc(d.x0, d.y0, rr, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
+      label(d.x0, d.y0 + rr, noteName(256 / (2 * Math.PI * rr / (P.v * u))), 0.8);
+    }
+  }
+
+  function label(x, y, text, a) {
+    g.font = '500 12px Karla, system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'top';
+    g.fillStyle = `rgba(236,230,213,${a})`;
+    g.fillText(text, x, y + 9);
+  }
+
+  function drawRing(r) {
+    const f = freq(r), h = hue(f);
+    let alpha = Math.min(1, (simT - r.born) / 0.25 + 0.3);
+    if (r.dying) alpha = Math.max(0, 1 - (simT - r.dieT) / 0.35);
+    const removing = isRemoving(r);
+    const fl = Math.exp(-Math.max(0, simT - r.lastFire) / 0.14) * (simT >= r.lastFire ? 1 : 0);
+    const acc = r.accent;
+    g.save(); g.globalAlpha = alpha;
+    if (removing) g.setLineDash([3, 5]);
+    if (fl > 0.02 && !reduce) {
+      g.strokeStyle = `hsla(${h},70%,70%,${(0.16 * fl * (1 + acc)).toFixed(3)})`;
+      g.lineWidth = 7 * fl * (1 + acc);
+      g.beginPath(); g.arc(r.x, r.y, r.r, 0, Math.PI * 2); g.stroke();
+    }
+    g.strokeStyle = removing ? 'rgba(220,110,90,0.8)' : `hsla(${h},45%,${62 + 18 * fl}%,${(0.36 + 0.5 * fl).toFixed(3)})`;
+    g.lineWidth = 1.3 + 1.2 * fl;
+    g.beginPath(); g.arc(r.x, r.y, r.r, 0, Math.PI * 2); g.stroke();
+    g.setLineDash([]);
+    // the striker at the top
+    const tk = 5 + 3 * fl;
+    g.strokeStyle = `hsla(${h},50%,80%,${(0.5 + 0.5 * fl).toFixed(3)})`; g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(r.x, r.y - r.r - tk); g.lineTo(r.x, r.y - r.r + tk); g.stroke();
+    // lurch trail when a ripple tugs the bead
+    const ta = simT - r.tugT;
+    if (ta >= 0 && ta < 0.3 && Math.abs(r.tugTo - r.tugFrom) > 0.002) {
+      const a1 = -Math.PI / 2 + 2 * Math.PI * r.tugFrom, a2 = -Math.PI / 2 + 2 * Math.PI * r.tugTo;
+      g.strokeStyle = `hsla(${h},80%,82%,${(0.7 * (1 - ta / 0.3)).toFixed(3)})`; g.lineWidth = 3; g.lineCap = 'round';
+      g.beginPath(); g.arc(r.x, r.y, r.r, a1, a2, a2 < a1); g.stroke(); g.lineCap = 'butt';
+    }
+    // bead
+    const ang = -Math.PI / 2 + 2 * Math.PI * Math.min(1, r.phi);
+    const bx = r.x + r.r * Math.cos(ang), by = r.y + r.r * Math.sin(ang);
+    const br = 3 + 1.2 * u;
+    g.fillStyle = `hsla(${h},80%,75%,0.18)`;
+    g.beginPath(); g.arc(bx, by, br * 3.2, 0, Math.PI * 2); g.fill();
+    g.fillStyle = `hsl(${h},85%,88%)`;
+    g.beginPath(); g.arc(bx, by, br, 0, Math.PI * 2); g.fill();
+    if (showNotes || dragged(r)) label(r.x, r.y + r.r, noteName(f), 0.75);
+    g.restore();
+  }
+
+  // ---------- touch & mouse ----------
+  const drags = new Map();
+  const dragged = r => { for (const d of drags.values()) if (d.ring === r && d.moved) return true; return false; };
+  const EDGE = 22;
+  const isRemoving = r => { for (const d of drags.values()) if (d.ring === r && d.mode === 'move' && d.moved) return r.x < EDGE || r.y < EDGE || r.x > W - EDGE || r.y > H - EDGE; return false; };
+
+  function pick(x, y) {
+    let best = null, bestScore = Infinity;
+    for (const r of rings) {
+      if (r.dying) continue;
+      const dc = Math.hypot(x - r.x, y - r.y);
+      const tolIn = Math.min(12, r.r * 0.35), tolOut = 16;
+      if (dc >= r.r - tolIn && dc <= r.r + tolOut) {
+        const sc = Math.abs(dc - r.r);
+        if (sc < bestScore) { bestScore = sc; best = { ring: r, mode: 'resize', dc }; }
+      } else if (dc < r.r - tolIn) {
+        const sc = 10 + r.r; // inside: smallest ring wins, rims win over insides
+        if (sc < bestScore) { bestScore = sc; best = { ring: r, mode: 'move', dc }; }
+      }
+    }
+    return best;
+  }
+
+  cv.addEventListener('pointerdown', e => {
+    if (!running) return;
+    if (ac && ac.state !== 'running') ac.resume();
+    closeDrawer();
+    try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+    const x = e.clientX, y = e.clientY, hit = pick(x, y);
+    if (hit) drags.set(e.pointerId, { mode: hit.mode, ring: hit.ring, x0: x, y0: y, ox: hit.ring.x - x, oy: hit.ring.y - y, dr: hit.ring.r - hit.dc, t0: performance.now(), moved: false });
+    else drags.set(e.pointerId, { mode: 'create', x0: x, y0: y, r: 0, t0: performance.now(), moved: false });
+  });
+  cv.addEventListener('pointermove', e => {
+    const d = drags.get(e.pointerId); if (!d) return;
+    const x = e.clientX, y = e.clientY;
+    if (!d.moved && Math.hypot(x - d.x0, y - d.y0) > 7) d.moved = true;
+    if (!d.moved) return;
+    if (d.mode === 'create') d.r = Math.hypot(x - d.x0, y - d.y0);
+    else if (d.mode === 'move') { d.ring.x = clamp(x + d.ox, 0, W); d.ring.y = clamp(y + d.oy, 0, H); touched('move'); }
+    else if (d.mode === 'resize') { d.ring.r = clamp(Math.hypot(x - d.ring.x, y - d.ring.y) + d.dr, minR(), maxR()); touched('resize'); }
+  });
+  function endDrag(e) {
+    const d = drags.get(e.pointerId); if (!d) return;
+    drags.delete(e.pointerId);
+    if (d.mode === 'create') {
+      if (rings.filter(r => !r.dying).length >= 40) { setHint('The field is full. Fling a ring off the edge to make room.'); return; }
+      const rr = d.moved ? clamp(d.r, minR(), maxR()) : 50 * u;
+      if (!d.moved && performance.now() - d.t0 > 600) return;
+      const r = makeRing(d.x0, d.y0, rr, 0);
+      fire(r, 0.6);
+      created();
+    } else if (!d.moved && performance.now() - d.t0 < 400) {
+      fire(d.ring, 1); touched('strike');
+    } else if (d.mode === 'move' && (d.ring.x < EDGE || d.ring.y < EDGE || d.ring.x > W - EDGE || d.ring.y > H - EDGE)) {
+      d.ring.dying = true; d.ring.dieT = simT; touched('remove');
+    }
+  }
+  cv.addEventListener('pointerup', endDrag);
+  cv.addEventListener('pointercancel', e => drags.delete(e.pointerId));
+
+  // ---------- hints ----------
+  const hintEl = document.getElementById('hint');
+  let hintTimer = null, stage = 0, createdCount = 0;
+  function setHint(text, ms = 0) {
+    hintEl.textContent = text; hintEl.classList.add('on');
+    clearTimeout(hintTimer);
+    if (ms) hintTimer = setTimeout(() => hintEl.classList.remove('on'), ms);
+  }
+  function created() {
+    createdCount++;
+    if (stage === 0) { stage = 1; setHint('Watch the bead lurch when a ripple reaches it. Give them a few seconds.'); setTimeout(() => { if (stage === 1) toStage2(); }, 9000); }
+  }
+  function onLock() { if (stage === 1) setTimeout(toStage2, 2500); }
+  function toStage2() { if (stage !== 1) return; stage = 2; setHint('Drag a ring to move it. Drag its rim to resize. Tap it to strike.'); }
+  const did = new Set();
+  function touched(kind) {
+    did.add(kind);
+    if (stage === 2 && (did.has('move') || did.has('resize'))) { stage = 3; setTimeout(() => setHint('Pull two rings apart and they start trading beats. Fling one at the edge to remove it.', 9000), 1800); }
+  }
+
+  // ---------- setups ----------
+  function clearField() { rings.length = 0; pulses.length = 0; threads.length = 0; }
+  const SETUPS = {
+    strangers() { const a = 57, b = 54, gap = 6; pair(a, b, gap, 0.0, 0.5); },
+    fifth() { const a = 56, b = 56 * 1.52, gap = 8; pair(a, b, gap, 0.0, 0.3); },
+    trading() { const r = 50, per = 2 * Math.PI * r / P.v, gap = 0.5 * per * P.c; pair(r, r, gap, 0.0, 0.1); },
+    triangle() {
+      const r = 40, per = 2 * Math.PI * r / P.v, side = 2 * r + 0.5 * per * P.c, R = side / Math.sqrt(3);
+      for (let i = 0; i < 3; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / 3; makeRing(W / 2 + R * u * Math.cos(a), H / 2 + R * u * Math.sin(a) + 10 * u, r * u, i * 0.21 + 0.05); }
+    },
+    cascade() {
+      const radii = [48, 43, 38, 34, 30, 27, 24], gap = 4;
+      let total = radii.reduce((s, r) => s + 2 * r, 0) + gap * (radii.length - 1);
+      const k = Math.min(1, (W - 40) / (total * u));
+      let x = W / 2 - total * u * k / 2;
+      radii.forEach((r, i) => { const rr = r * u * k; makeRing(x + rr, H / 2, rr, 0.7 + i * 0.03); x += 2 * rr + gap * u * k; });
+    },
+    crowd() {
+      const placed = [];
+      for (let tries = 0; placed.length < 14 && tries < 600; tries++) {
+        const r = (18 + Math.random() * 52) * u, x = r + 12 + Math.random() * (W - 2 * r - 24), y = r + 64 + Math.random() * (H - 2 * r - 140);
+        if (placed.every(p => Math.hypot(p.x - x, p.y - y) > p.r + r + 6)) { placed.push({ x, y, r }); makeRing(x, y, r, Math.random()); }
+      }
+    }
+  };
+  function pair(a, b, gap, pa, pb) {
+    const span = (2 * a + gap + 2 * b) * u, x0 = W / 2 - span / 2;
+    makeRing(x0 + a * u, H / 2, a * u, pa);
+    makeRing(x0 + (2 * a + gap + b) * u, H / 2, b * u, pb);
+  }
+  document.querySelectorAll('[data-setup]').forEach(btn => btn.addEventListener('click', () => {
+    clearField(); SETUPS[btn.dataset.setup](); stage = Math.max(stage, 3); hintEl.classList.remove('on'); closeDrawer();
+  }));
+
+  // ---------- drawer ----------
+  const drawer = document.getElementById('drawer'), tuneBtn = document.getElementById('tuneBtn');
+  function closeDrawer() { drawer.hidden = true; tuneBtn.setAttribute('aria-expanded', 'false'); }
+  tuneBtn.addEventListener('click', () => { drawer.hidden = !drawer.hidden; tuneBtn.setAttribute('aria-expanded', String(!drawer.hidden)); });
+  const pull = document.getElementById('pull'), pullOut = document.getElementById('pullOut');
+  pull.addEventListener('input', () => { P.eps = parseFloat(pull.value); pullOut.textContent = P.eps.toFixed(2); });
+  const notesBtn = document.getElementById('notesBtn'), soundBtn = document.getElementById('soundBtn');
+  notesBtn.addEventListener('click', () => { showNotes = !showNotes; notesBtn.setAttribute('aria-pressed', String(showNotes)); });
+  soundBtn.addEventListener('click', () => { soundOn = !soundOn; soundBtn.setAttribute('aria-pressed', String(soundOn)); });
+  document.getElementById('clearBtn').addEventListener('click', () => { clearField(); closeDrawer(); setHint('Drag on empty space to draw a ring.', 6000); });
+
+  // ---------- start ----------
+  let begun = false;
+  function begin() {
+    if (begun) return; begun = true;
+    if (!ac) initAudio();
+    const go = () => { if (!running) launch(); };
+    if (ac && ac.state !== 'running') { ac.resume().then(go, go); setTimeout(go, 600); } else go();
+  }
+  function launch() {
+    document.getElementById('intro').hidden = true;
+    simT = ac ? ac.currentTime + LA : 0; perfBase = null;
+    for (const r of rings) { r.born = simT; r.lastFire = -9; }
+    running = true;
+    if (rings.length === 1) fire(rings[0], 0.5);
+    setHint(rings.length > 1 ? 'Drag a ring to move it. Drag its rim to resize. Tap it to strike.' : 'Drag on empty space to draw a second ring.');
+    if (rings.length > 1) stage = 2;
+  }
+  document.getElementById('begin').addEventListener('click', begin);
+
+  function frame() {
+    requestAnimationFrame(frame);
+    if (running) {
+      const T = clock() + LA;
+      if (Math.abs(T - simT) > 0.3) { simT = T - 0.02; perfBase = null; }
+      if (T > simT) advance(T);
+      for (let i = rings.length - 1; i >= 0; i--) if (rings[i].dying && simT - rings[i].dieT > 0.4) rings.splice(i, 1);
+    }
+    draw();
+  }
+
+  function start(data) {
+    if (data && Array.isArray(data.rings) && data.rings.length) {
+      for (const s of data.rings) makeRing(s.x * W, s.y * H, s.r * u, s.phi || 0);
+      if (typeof data.eps === 'number') { P.eps = data.eps; pull.value = data.eps; pullOut.textContent = data.eps.toFixed(2); }
+    } else {
+      makeRing(W / 2, H / 2, 57 * u, 0.2);
+    }
+    requestAnimationFrame(frame);
+  }
+  const hot = window.claude && window.claude.hot;
+  if (hot && hot.snapshot) {
+    try { hot.snapshot(() => ({ rings: rings.filter(r => !r.dying).map(r => ({ x: r.x / W, y: r.y / H, r: r.r / u, phi: r.phi })), eps: P.eps })); } catch (e) {}
+  }
+  if (hot && hot.ready) hot.ready(start); else start((hot && hot.data) || {});
+})();
+</script>
+
+</body></html>

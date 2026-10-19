@@ -18,4 +18,13 @@ export const instruments = [
     source: 'https://github.com/jstewdios/periodic-tables/tree/main/dist/instruments/hushpod',
     notes: 'A coupled-resonator model with a drawn skin, not a fluid simulation. Synthesized locally; sound starts with your touch.',
   },
+  {
+    id: 'odd-sympathy', name: 'Odd Sympathy', category: 'Rhythm · pitch · synchrony',
+    invitation: 'Draw two clocks. Let them listen. Hear them find each other.',
+    description: 'Each ring ticks at a tempo set by its size and sounds that tempo as a note. Ripples pull neighbours into step, into trading beats, or into a perfect fifth.',
+    status: 'Playable prototype', href: './odd-sympathy/', action: 'Play Odd Sympathy',
+    credit: 'Claude (Anthropic) · independent prototype; study initiated and facilitated by James Stewart',
+    source: 'https://github.com/jstewdios/periodic-tables/tree/main/dist/instruments/odd-sympathy',
+    notes: 'Pulse-coupled clocks on a screen, not a model of real pendulums. Synthesized locally; sound starts when you begin.',
+  },
 ];

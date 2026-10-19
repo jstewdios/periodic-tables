@@ -1,6 +1,6 @@
 # Periodic Tables
 
-A playground for playable scientific and musical instruments. Discover patterns in the elements, explore compounds, or catch and reveal vibration with Hushpod.
+A playground for playable scientific and musical instruments. Discover patterns in the elements, explore compounds, catch and reveal vibration with Hushpod, or let ring clocks pull each other into rhythm and harmony with Odd Sympathy.
 
 [Try the current app](https://periodic-tables-pied.vercel.app/) · [Contribute](CONTRIBUTING.md) · [MIT license](LICENSE)
 
@@ -8,7 +8,7 @@ The registered primary domain is [periodictables.xyz](https://periodictables.xyz
 
 ## The first collection
 
-Open **Instruments** in the chemistry navigation, or go straight to `/instruments/`. The collection currently contains chemistry and **Hushpod**, a self-contained, touch-playable coupled-resonator prototype. Each keeps its own interface, source, and credits. Existing chemistry URLs and saved discoveries are unchanged.
+Open **Instruments** in the chemistry navigation, or go straight to `/instruments/`. The collection currently contains chemistry, **Hushpod**, a self-contained, touch-playable coupled-resonator prototype, and **Odd Sympathy**, a field of pulse-coupled ring clocks where size is tempo and tempo is pitch. Each keeps its own interface, source, and credits. Existing chemistry URLs and saved discoveries are unchanged.
 
 - **The table:** all 118 elements; family colors, electron-pull gradients, room-temperature states, and atomic number; element details, source links, arrow-key navigation, and optional sonification.
 - **Compound workbench:** tap or drag elements, adjust atom counts, and explore 14 authored compositions. Molecular models show connectivity; ionic/network solids show ratios. Unmatched compositions stay open questions.
@@ -57,4 +57,4 @@ One useful question or correction can make a good contribution. Read the short [
 
 Changes to scientific matching or data should retain the core guarantees in `tests/chemistry.test.js`: no invented values, no simplified molecular formulas, no fictitious molecules for extended solids, and no claim that an unmatched composition is impossible.
 
-Validation includes chemistry checks, Hushpod's original model and processor checks, and audio lifecycle regression tests. An optional browser smoke runner exercises the real pages and AudioWorklet. See [instrument architecture and contributor notes](docs/INSTRUMENTS.md), [Hushpod provenance](docs/hushpod-provenance.json), and the [first-slice test record](docs/INSTRUMENT_TESTING.md). Real Android and iOS testing remains a release follow-up; emulation does not establish speaker quality or OS interruption behavior.
+Validation includes chemistry checks, Hushpod's original model and processor checks, a replay of the preserved original Odd Sympathy against its collection version, and audio lifecycle regression tests. An optional browser smoke runner exercises the real pages and AudioWorklet. See [instrument architecture and contributor notes](docs/INSTRUMENTS.md), [Hushpod provenance](docs/hushpod-provenance.json), the [Odd Sympathy study record](docs/ODD_SYMPATHY.md) and [provenance](docs/odd-sympathy-provenance.json), and the [first-slice test record](docs/INSTRUMENT_TESTING.md). Real Android and iOS testing remains a release follow-up; emulation does not establish speaker quality or OS interruption behavior.

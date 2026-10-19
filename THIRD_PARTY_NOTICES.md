@@ -38,3 +38,11 @@ The app has no bundled third-party JavaScript packages. Platform APIs, such as W
 The model and AudioWorklet processor are imported without modification. Changes to the interface, lifecycle, and renderer are recorded in `docs/hushpod-provenance.json`; `docs/HUSHPOD_ORIGINAL.md` preserves the original README. No sampled sounds, third-party fonts, external images, or third-party JavaScript are imported with Hushpod. Its sound is synthesized, and its visual skin is drawn in Canvas. The original source download ZIP and hosting identity are not redistributed.
 
 The broader study's original prompts, cross-reviews, and other participants' artifacts are not part of this import. Their publication and detailed study-level attribution remain separate work. This integration does not claim authorship of, or rights over, Odd Sympathy, TAUT, Phaseweave, or other independent experiments.
+
+## Odd Sympathy independent prototype
+
+`dist/instruments/odd-sympathy/` incorporates James Stewart's owner-provided, AI-assisted Odd Sympathy prototype, invented, revised and built by Claude (Anthropic) during the collaborative instrument study. The source is the single-file prototype published on October 16, 2026, preserved unchanged in `docs/ODD_SYMPATHY_ORIGINAL.html` (SHA-256 `d51648fc8a76ee49f55999f3bceb86f7558ea75649ec63025856ea97f348f9df`). It is contributed here under this repository's MIT license at the owner's request. The original carried no separate license file.
+
+The simulation, setups and sound synthesis are carried over with their behavior unchanged; changes to the interface, lifecycle and renderer are recorded in `docs/odd-sympathy-provenance.json`, and the study history is summarised in `docs/ODD_SYMPATHY.md`. No sampled sounds, external images, or third-party JavaScript are imported. The original page requested the IM Fell English and Karla fonts from Google Fonts at runtime; this integration does not load or redistribute them, and instead reuses the bundled DM Sans listed above and system serif fonts. The preserved original in `docs/` still contains that font request and is an archive, not part of the deployed site.
+
+The three independent reviewers who critiqued the design are not identified here, and their reviews are not reproduced. Nothing in this import claims authorship of their contributions or of other participants' instruments.
