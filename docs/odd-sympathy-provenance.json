@@ -1,0 +1,61 @@
+{
+  "instrument": "Odd Sympathy",
+  "imported_on": "2026-10-18",
+  "attribution": "Claude (Anthropic) — invention, revision under criticism, simulation checks and the playable prototype; James Stewart — study initiation, facilitation, review coordination and integration direction",
+  "study_collaborators": "Reviews A, C and D critiqued the first design; the study's reviewer key records them as Gemini, ChatGPT and Grok. Their reviews shaped the revision; this field does not imply their authorship of Odd Sympathy. The reviews, prompts, proposal and revision are preserved in jstewdios/collaborative-instruments, study 001.",
+  "license_note": "Owner-provided AI-assisted original, contributed under this repository's MIT license at the owner's request. The original prototype carried no separate license. No third-party recordings, images or JavaScript were imported. The original requested two Google Fonts (IM Fell English, Karla) at runtime; this integration does not load or redistribute them.",
+  "original": {
+    "path": "docs/ODD_SYMPATHY_ORIGINAL.html",
+    "kind": "Published claude.ai artifact, single self-contained HTML page",
+    "published": "2026-10-16",
+    "artifact_version": "1792150571-d11c",
+    "retrieved": "2026-10-18",
+    "bytes": 28381,
+    "sha256": "d51648fc8a76ee49f55999f3bceb86f7558ea75649ec63025856ea97f348f9df",
+    "note": "Preserved byte for byte as served. The first line is the artifact host's document wrapper; the authored page starts at <title>. Opening it locally requests Google Fonts; it is an archive, not part of the deployed site."
+  },
+  "study_record": "docs/ODD_SYMPATHY.md",
+  "study_record_status": "docs/ODD_SYMPATHY.md summarises the study; the original proposal, prompts, reviews and revision are archived in jstewdios/collaborative-instruments. Records from the Odd Sympathy conversations (the invention prompt as received, the revision's six simulation scripts, the build-stage rule check, confirmed authorship and chronology) are added to that archive by jstewdios/collaborative-instruments PR #3; the scripts' original printed outputs were not preserved.",
+  "files": [
+    {
+      "path": "dist/instruments/odd-sympathy/model.mjs",
+      "from": "Original script section '// ---------- the three rules ----------'",
+      "modified": "Moved into a DOM-free class. Arithmetic, constants and evaluation order unchanged. tests/odd-sympathy/model.test.mjs runs the preserved original's own code beside it and requires identical fire times and pitches for all six setups, with player edits."
+    },
+    {
+      "path": "dist/instruments/odd-sympathy/setups.mjs",
+      "from": "Original script section '// ---------- setups ----------'",
+      "modified": "Geometry unchanged and checked against the original. The crowd setup accepts an injectable random source for testing."
+    },
+    {
+      "path": "dist/instruments/odd-sympathy/audio.mjs",
+      "from": "Original script section '// ---------- sound ----------'",
+      "modified": "Voice, filter envelope, panning, generated reverb, limiter and the 42-voice cap unchanged. Added: an output gate after the limiter for mute and lifecycle, gesture-only start, visible failure with retry, background suspension without automatic recovery, and full close on navigation."
+    },
+    {
+      "path": "dist/instruments/odd-sympathy/render.mjs",
+      "from": "Original script section '// ---------- drawing ----------'",
+      "modified": "Drawing unchanged except: reduced motion now also drops expanding ripples and lurch trails (shown instead as a brief rim brightening); a dashed halo marks the keyboard-focused ring; labels use the bundled DM Sans."
+    },
+    {
+      "path": "dist/instruments/odd-sympathy/app.mjs",
+      "from": "Original script sections for touch & mouse, hints, drawer and start",
+      "modified": "Gestures, thresholds, hint sequence and ring limit unchanged. Coordinates are now relative to the field below the collection bar, and rings and ripples are remapped proportionally when the field resizes. Added: keyboard play, a Sound button, clock mapping that pauses instead of catching up, pointer-capture loss handling, and page lifecycle cleanup."
+    },
+    {
+      "path": "dist/instruments/odd-sympathy/index.html",
+      "from": "Original markup",
+      "modified": "Added collection navigation, Sound button, keyboard ring targets, an About section and an audio error with retry. Intro text unchanged. One drawer sentence corrected: 'The triangle can never settle' became 'The triangle splits two against one' (see docs/ODD_SYMPATHY.md)."
+    },
+    {
+      "path": "dist/instruments/odd-sympathy/style.css",
+      "from": "Original style block",
+      "modified": "Same palette and layout. Display font falls back to the original's own serif stack; body text uses the bundled DM Sans instead of Karla. 44px controls and safe-area spacing added."
+    },
+    {
+      "path": "dist/instruments/odd-sympathy/icon.svg",
+      "from": "New",
+      "modified": "Drawn for this integration."
+    }
+  ]
+}

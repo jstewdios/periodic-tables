@@ -9,10 +9,11 @@ Use **ordinary static document navigation** as the experiment boundary. This is 
 | `/` and existing `/#table`, `/#workbench`, `/#everyday`, `/#trails`, `/#collection` | Existing chemistry application |
 | `/instruments/` | Invitation, two collection entries, status, source and credit |
 | `/instruments/hushpod/` | Independent Hushpod document, UI, model, renderer and audio |
+| `/instruments/odd-sympathy/` | Independent Odd Sympathy document, UI, model, renderer and audio |
 
 Links are relative, so the same tree also works under a static-host subdirectory. No rewrite rules or catch-all route are necessary. There is no extra Hushpod download when someone opens chemistry or the collection. The chemistry collection storage key and schema remain `periodic-tables.collection.v1`; no migration is needed. An unsaved workbench is still in-memory. Normal browser history may retain it, but full document reload does not promise to restore it.
 
-`dist/instruments/catalog.js` is a small authored metadata array. The launcher renders it without importing any instrument's engine. The optional preview artwork is in the launcher's `app.js`; it has no scientific meaning and does not drive the instrument. There are only two entries: unfinished prototypes do not appear as unavailable promises.
+`dist/instruments/catalog.js` is a small authored metadata array. The launcher renders it without importing any instrument's engine. The optional preview artwork is in the launcher's `app.js`; it has no scientific meaning and does not drive the instrument. There are three entries: unfinished prototypes do not appear as unavailable promises.
 
 ## Minimal instrument contract
 
@@ -42,11 +43,25 @@ The audio startup race is explicitly guarded: a module fetch finishing after `pa
 
 Chemistry retains its hash router and features. Its audio module now also cancels pending activation on navigation, suspends on backgrounding, and closes on `pagehide`; returning starts with sound off.
 
+## Odd Sympathy reuse and changes
+
+The source is the single-file prototype Claude published on October 16, 2026, preserved byte for byte as [`ODD_SYMPATHY_ORIGINAL.html`](ODD_SYMPATHY_ORIGINAL.html). The page was split into `model.mjs`, `setups.mjs`, `audio.mjs`, `render.mjs` and `app.mjs` so the rules can be tested without a browser.
+
+Preserved rather than rewritten:
+
+- The three rules, constants, event-driven scheduler, tempo-following pitch and evaluation order. `tests/odd-sympathy/model.test.mjs` executes the original page's own simulation and setup code next to `model.mjs` and requires identical fire times and pitches.
+- The six setups, the gestures and their thresholds, the 40-ring limit, the hint sequence, the intro and the Tune drawer.
+- The voice, filter envelope, panning, generated reverb, limiter and 42-voice cap.
+
+Integration changes follow the contract above: collection navigation; a Sound button; keyboard and screen-reader play through one button per ring (inert until the intro closes), with a canvas-drawn focus halo; proportional remapping of rings when the field resizes; an About section; visible audio failure with retry while the field keeps playing silently; suspension on hide with no automatic recovery and no catch-up; full audio close on `pagehide`; and stronger reduced-motion behaviour. The simulation clock follows the audio clock while sound runs and the page clock otherwise, mapped so switching between them never jumps time. The original's Google Fonts are not loaded. One drawer sentence about the Triangle was corrected because the model shows it settling; see the [study record](ODD_SYMPATHY.md). Exact file-level notes are in [`odd-sympathy-provenance.json`](odd-sympathy-provenance.json).
+
+Odd Sympathy needs Web Audio for sound but not AudioWorklet; voices are scheduled from the main thread with a 35 ms lookahead, as in the original. It has no saved fields: reloading starts with one ring. The revision's proposed diagnostics layer and URL-set study conditions are not built yet.
+
 ## Dependencies and deliberate limits
 
 - HTTPS (or localhost), Web Audio and AudioWorklet are required for Hushpod sound. Missing APIs or module failures show a retryable explanation. There is no lower-fidelity fallback engine.
 - The source snapshot had no separate license file. This owner-requested import contributes the owner's AI-assisted original material under the repository's existing MIT license; see the notices. No licenses are assigned to other study contributions.
-- The original prompts, reviews and full collaborative-study attribution still need archival work. This is a preserved playable artifact, not a claim that the wider study has concluded. No dependency on unfinished prototypes blocks this slice.
+- For Hushpod, the original prompts, reviews and full collaborative-study attribution still need archival work. Odd Sympathy has a summarised study record, but its reviewers' texts are not included. This is a preserved playable artifact, not a claim that the wider study has concluded. No dependency on unfinished prototypes blocks this slice.
 - There are no runtime package dependencies, sensor/microphone permissions, remote recordings, accounts, or analytics. All diagnostics are local downloads.
 - Files are static and can be hosted locally, but there is **no service worker or guaranteed offline install** in this slice.
 - Hushpod has no saved sessions. Reloading/navigating away ends its current vibration. Existing saved chemistry discoveries are preserved.

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f12">
+  <meta name="description" content="Draw ring clocks that tick, ripple and pull each other into step. Size is tempo and tempo is pitch, so a locked rhythm is also a chord.">
+  <title>Odd Sympathy — clocks that find each other</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="instrument">
+    <nav class="collection-nav" aria-label="Instrument collection"><a href="../">← Instruments</a><span>PLAYABLE PROTOTYPE</span><a href="../../#table">Chemistry ↗</a></nav>
+
+    <section class="stage" id="stage" aria-label="The Odd Sympathy field">
+      <canvas id="field" aria-hidden="true"></canvas>
+      <div class="ring-targets" id="ring-targets" data-until-launch inert role="group" aria-label="Rings" aria-describedby="ring-keys"></div>
+      <p class="sr-only" id="ring-keys">Enter or Space strikes a ring. Arrow keys move it, plus and minus resize it, Delete removes it. Press N to add a ring.</p>
+      <div class="mark" aria-hidden="true">Odd Sympathy</div>
+      <div class="tools" data-until-launch inert>
+        <button class="pill" id="sound-btn" aria-label="Start sound">Sound off</button>
+        <button class="pill" id="tune-btn" aria-expanded="false" aria-controls="drawer" title="Tune · T">Tune</button>
+      </div>
+
+      <div class="drawer" id="drawer" role="region" aria-label="Tune" hidden>
+        <section>
+          <h2><label for="pull">Pull</label><output id="pull-out" for="pull">0.22</output></h2>
+          <input type="range" id="pull" min="0" max="0.6" step="0.01" value="0.22">
+          <p>How hard a ripple tugs a bead. Too little and nothing agrees. Too much and everything collapses into one beat.</p>
+        </section>
+        <section>
+          <h2>Setups</h2>
+          <div class="setups" id="setups"></div>
+          <p>Each one clears the field. Strangers find each other. The trading pair alternates because of distance. The triangle splits two against one.</p>
+        </section>
+        <section>
+          <h2>Field</h2>
+          <div class="row">
+            <button id="add-btn" title="Add a ring · N">Add a ring</button>
+            <button id="notes-btn" aria-pressed="false">Note names</button>
+            <button id="clear-btn">Clear field</button>
+          </div>
+        </section>
+        <section class="about" id="about">
+          <h2>About</h2>
+          <details><summary>Playing with keys</summary><p><kbd>N</kbd> adds a ring. <kbd>Tab</kbd> moves between rings; <kbd>Enter</kbd> or <kbd>Space</kbd> strikes one, arrow keys move it (hold <kbd>Shift</kbd> for small steps), <kbd>+</kbd> and <kbd>−</kbd> resize it, <kbd>Delete</kbd> removes it. <kbd>M</kbd> mutes, <kbd>T</kbd> opens Tune, <kbd>Esc</kbd> closes it.</p></details>
+          <details><summary>What is happening?</summary><p>Every bead moves at the same speed, so a ring’s size sets its tempo, and its pitch is that tempo eight octaves up. Each tick sends a ripple that travels slowly outward and fades. When a ripple reaches a ring it tugs the bead toward the top: back a little early in its lap, forward late in it. Nothing else is programmed. Locks, trading and splits come from those three rules.</p><p>A ring’s pitch follows the rhythm it is actually keeping, smoothed over its last few beats, so a locked 3:2 plays as a true fifth. All sound is synthesized here in your browser.</p></details>
+          <details><summary>Origins, source &amp; limits</summary><p>Odd Sympathy is Claude’s independent instrument from James Stewart’s collaborative instrument study. It was invented, reviewed by other study participants, revised under that criticism and built in October 2026. This edition keeps the October 16 prototype’s rules and sound unchanged, with navigation, keyboard play, accessibility and audio-lifecycle improvements.</p><p>It is an exploratory toy, not a model of real clocks. Lengths are screen pixels and the ripple is not a physical wave. With reduced motion enabled, ripples, glows and trails give way to a brief rim brightening; the beads still turn because they are the clocks.</p><p><a href="https://github.com/jstewdios/periodic-tables/blob/main/docs/ODD_SYMPATHY.md" target="_blank" rel="noopener noreferrer">The study record</a> · <a href="https://github.com/jstewdios/periodic-tables/tree/main/dist/instruments/odd-sympathy" target="_blank" rel="noopener noreferrer">Source</a> · <a href="../../LICENSE.txt" target="_blank" rel="noopener noreferrer">MIT license</a> · <a href="../../THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener noreferrer">Provenance</a></p></details>
+        </section>
+      </div>
+
+      <div class="hint" id="hint" aria-live="polite"></div>
+      <div class="audio-error" id="audio-error" role="alert" hidden><p id="audio-error-text"></p><button id="retry-btn">Try sound again</button></div>
+
+      <div class="intro" id="intro">
+        <div class="intro-inner">
+          <h1>Odd Sympathy</h1>
+          <p class="story">In 1665 Huygens, sick in bed, saw two clocks on one beam swinging in step. He knocked them apart. Within half an hour they had found each other again.</p>
+          <p class="how">Each ring here is a clock. Its size sets its tempo and its note. Every tick sends out a ripple that tugs on its neighbours.</p>
+          <button id="begin">Begin with sound</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="app.mjs"></script>
+  <noscript><p>Odd Sympathy needs JavaScript to play. <a href="../">Return to the instrument collection.</a></p></noscript>
+</body>
+</html>

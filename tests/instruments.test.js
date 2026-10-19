@@ -24,3 +24,15 @@ test('the imported scientific model and processor match the recorded original sn
   }
   for(const name of ['model.mjs','worklet.mjs'])assert.equal(provenance.files.find(f=>f.path.endsWith('/'+name)).modified,false);
 });
+test('Odd Sympathy keeps its preserved original and every recorded file',()=>{
+  const provenance=JSON.parse(readFileSync(new URL('../docs/odd-sympathy-provenance.json',import.meta.url)));
+  const original=readFileSync(new URL('../'+provenance.original.path,import.meta.url));
+  assert.equal(original.length,provenance.original.bytes);
+  assert.equal(createHash('sha256').update(original).digest('hex'),provenance.original.sha256);
+  for(const file of provenance.files)assert.ok(existsSync(new URL('../'+file.path,import.meta.url)),file.path);
+  const entry=instruments.find(i=>i.id==='odd-sympathy');
+  assert.ok(entry&&entry.credit.includes('Claude')&&entry.credit.includes('James Stewart'));
+  // The deployed instrument makes no external requests; only the archive may mention Google Fonts.
+  for(const name of ['index.html','style.css','app.mjs','render.mjs'])
+    assert.doesNotMatch(readFileSync(new URL('../dist/instruments/odd-sympathy/'+name,import.meta.url),'utf8'),/googleapis|gstatic/);
+});
