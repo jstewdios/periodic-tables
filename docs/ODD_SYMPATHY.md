@@ -47,10 +47,14 @@ It respecified the rules exactly, raised the coupling strength, and defined pitc
 
 ### 4. Build — October 16, 2026
 
-The playable prototype was built as a single HTML page from a one-line request, sent from a phone at about 4:30 am Pacific: build the Odd Sympathy idea, with no long prompt or study. The build conversation shows the original proposal being read, but not the revision or the reviews, although the result follows the revision's direction in several ways. Before building, the author ran the rules headlessly in Node to confirm unison for similar adjacent rings, alternation for separated identical rings, and 3:2 and 2:1 locks at the expected size ratios. Two deliberate departures from the design were disclosed at the time:
+The playable prototype was built as a single HTML page from a one-line request, sent from a phone at about 4:30 am Pacific: build the Odd Sympathy idea, with no long prompt or study. The build conversation shows the original proposal being read, but not the revision or the reviews, although the result follows the revision's direction in several ways. Before building, the author ran the rules headlessly in Node and reported unison for similar adjacent rings, alternation for separated identical rings, and 3:2 and 2:1 locks at the expected size ratios; the printed outputs are not in the transcript.
 
-- **A smooth tug curve.** The revision's piecewise rule was replaced with one that pulls slightly back early in the lap, pushes forward late, and barely moves a bead that has just fired. Without that, close rings set each other off in loops of extra notes.
-- **Pitch from kept rhythm, smoothed per beat.** Pitch follows the tempo a ring actually keeps, as a running average of its recent beat intervals, rather than the revision's six-lap window. This keeps a locked 3:2 in tune instead of up to about 85 cents off.
+At the time, the build named two changes from the design it was working from:
+
+- **The tug barely moves a bead that has just fired.** It acts mainly in the late part of the lap, because otherwise close rings set each other off in loops of extra notes. The build noted this removes the proposal's ghost notes.
+- **Pitch follows the rhythm a ring actually keeps,** not just its size, so a locked 3:2 sounds in tune instead of up to about 85 cents off.
+
+Compared afterwards with the revision, which the build does not show being read, the prototype lands close to the revision's direction but differs in detail. It uses a smooth tug curve, φ + ε·s·φ·(2φ − 1), instead of the revision's piecewise forward/backward rule. It smooths pitch with a per-beat running average instead of the revision's six-lap window. And its coupling strength is 0.22, against the revision's 0.25.
 
 **This was not a controlled comparison.** James has said the study was unfinished: after the Hushpod build he stopped for the night, and the Odd Sympathy build was an informal request. Hushpod was built from its full revised specification; Odd Sympathy was not. The two prototypes should not be compared as equal treatments.
 
