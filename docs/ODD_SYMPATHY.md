@@ -47,10 +47,12 @@ It respecified the rules exactly, raised the coupling strength, and defined pitc
 
 ### 4. Build — October 16, 2026
 
-The playable prototype was built as a single HTML page from the revised design. Before building, the author ran the rules headlessly in Node to confirm unison for similar adjacent rings, alternation for separated identical rings, and 3:2 and 2:1 locks at the expected size ratios. Two deliberate departures from the revised specification were disclosed at the time:
+The playable prototype was built as a single HTML page from a one-line request, sent from a phone at about 4:30 am Pacific: build the Odd Sympathy idea, with no long prompt or study. The build conversation shows the original proposal being read, but not the revision or the reviews, although the result follows the revision's direction in several ways. Before building, the author ran the rules headlessly in Node to confirm unison for similar adjacent rings, alternation for separated identical rings, and 3:2 and 2:1 locks at the expected size ratios. Two deliberate departures from the design were disclosed at the time:
 
 - **A smooth tug curve.** The revision's piecewise rule was replaced with one that pulls slightly back early in the lap, pushes forward late, and barely moves a bead that has just fired. Without that, close rings set each other off in loops of extra notes.
 - **Pitch from kept rhythm, smoothed per beat.** Pitch follows the tempo a ring actually keeps, as a running average of its recent beat intervals, rather than the revision's six-lap window. This keeps a locked 3:2 in tune instead of up to about 85 cents off.
+
+**This was not a controlled comparison.** James has said the study was unfinished: after the Hushpod build he stopped for the night, and the Odd Sympathy build was an informal request. Hushpod was built from its full revised specification; Odd Sympathy was not. The two prototypes should not be compared as equal treatments.
 
 That page is preserved unchanged as [`ODD_SYMPATHY_ORIGINAL.html`](ODD_SYMPATHY_ORIGINAL.html). The version in this collection runs the same rules (see below).
 
