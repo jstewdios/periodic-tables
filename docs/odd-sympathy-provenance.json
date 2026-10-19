@@ -2,7 +2,7 @@
   "instrument": "Odd Sympathy",
   "imported_on": "2026-10-18",
   "attribution": "Claude (Anthropic) — invention, revision under criticism, simulation checks and the playable prototype; James Stewart — study initiation, facilitation, review coordination and integration direction",
-  "study_collaborators": "Three independent reviewers (anonymised as A, C and D in the study) critiqued the first design. Their reviews shaped the revision; this field does not imply their authorship of Odd Sympathy. Their identities and full texts are not part of this import.",
+  "study_collaborators": "Reviews A, C and D critiqued the first design; the study's reviewer key records them as Gemini, ChatGPT and Grok. Their reviews shaped the revision; this field does not imply their authorship of Odd Sympathy. The reviews, prompts, proposal and revision are preserved in jstewdios/collaborative-instruments, study 001.",
   "license_note": "Owner-provided AI-assisted original, contributed under this repository's MIT license at the owner's request. The original prototype carried no separate license. No third-party recordings, images or JavaScript were imported. The original requested two Google Fonts (IM Fell English, Karla) at runtime; this integration does not load or redistribute them.",
   "original": {
     "path": "docs/ODD_SYMPATHY_ORIGINAL.html",
@@ -15,7 +15,7 @@
     "note": "Preserved byte for byte as served. The first line is the artifact host's document wrapper; the authored page starts at <title>. Opening it locally requests Google Fonts; it is an archive, not part of the deployed site."
   },
   "study_record": "docs/ODD_SYMPATHY.md",
-  "study_record_status": "The record summarises the invention, review, revision and build conversations. The original prompts are paraphrased, the reviewers' texts are not included, and the original Python and Node simulation scripts were not preserved.",
+  "study_record_status": "docs/ODD_SYMPATHY.md summarises the study; the original proposal, prompts, reviews and revision are archived in jstewdios/collaborative-instruments. The build conversation and the revision's simulation scripts are not yet in that archive.",
   "files": [
     {
       "path": "dist/instruments/odd-sympathy/model.mjs",
@@ -40,7 +40,7 @@
     {
       "path": "dist/instruments/odd-sympathy/app.mjs",
       "from": "Original script sections for touch & mouse, hints, drawer and start",
-      "modified": "Gestures, thresholds, hint sequence and ring limit unchanged. Coordinates are now relative to the field below the collection bar. Added: keyboard play, a Sound button, clock mapping that pauses instead of catching up, pointer-capture loss handling, and page lifecycle cleanup."
+      "modified": "Gestures, thresholds, hint sequence and ring limit unchanged. Coordinates are now relative to the field below the collection bar, and rings and ripples are remapped proportionally when the field resizes. Added: keyboard play, a Sound button, clock mapping that pauses instead of catching up, pointer-capture loss handling, and page lifecycle cleanup."
     },
     {
       "path": "dist/instruments/odd-sympathy/index.html",

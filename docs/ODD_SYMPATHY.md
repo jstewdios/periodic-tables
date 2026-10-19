@@ -2,7 +2,7 @@
 
 Odd Sympathy is one of the independent instruments from James Stewart's collaborative instrument study, run in October 2026. This record covers how the instrument was invented, criticised, revised and built, what the playable version actually does, and what is still open. It is written for anyone who wants to understand the instrument, check its claims, or continue the work.
 
-**Play it:** [`/instruments/odd-sympathy/`](../dist/instruments/odd-sympathy/) · **Source:** [`dist/instruments/odd-sympathy/`](../dist/instruments/odd-sympathy/) · **Original prototype:** [`ODD_SYMPATHY_ORIGINAL.html`](ODD_SYMPATHY_ORIGINAL.html) · **Provenance:** [`odd-sympathy-provenance.json`](odd-sympathy-provenance.json)
+**Play it:** [`/instruments/odd-sympathy/`](../dist/instruments/odd-sympathy/) · **Source:** [`dist/instruments/odd-sympathy/`](../dist/instruments/odd-sympathy/) · **Original prototype:** [`ODD_SYMPATHY_ORIGINAL.html`](ODD_SYMPATHY_ORIGINAL.html) · **Provenance:** [`odd-sympathy-provenance.json`](odd-sympathy-provenance.json) · **Study archive:** [collaborative-instruments, study 001](https://github.com/jstewdios/collaborative-instruments/tree/main/studies/001-emergent-musical-toys)
 
 ## The idea in one paragraph
 
@@ -10,7 +10,7 @@ In 1665 Christiaan Huygens, ill in bed, noticed two pendulum clocks on one beam 
 
 ## How the study ran
 
-The study gave each participant the same open brief, then exposed each design to independent criticism and asked its author to revise. Odd Sympathy's author was Claude (Anthropic). The stages below are summarised from the original conversations; the prompts are paraphrased.
+The study gave each participant the same open brief, then exposed each design to independent criticism and asked its author to revise. Four instruments came out of it: TAUT, Odd Sympathy, Hushpod and Phaseweave. Odd Sympathy's inventor, reviser and builder was Claude (Anthropic); the original conversations confirm the attribution the study archive had inferred. The stages below are summarised from those conversations and from the study archive, [jstewdios/collaborative-instruments](https://github.com/jstewdios/collaborative-instruments) (study 001), which preserves the proposal, prompts, reviews and revision byte for byte.
 
 ### 1. Invention — October 15, 2026
 
@@ -22,7 +22,7 @@ Its self-critique found a "heat death" problem: purely forward pushes should dra
 
 ### 2. Criticism — three independent reviewers
 
-Three reviewers, anonymised as A, C and D, evaluated the design. Their full texts are not part of this record. The revision's responses show their main points:
+Each reviewer saw three anonymous proposals. Odd Sympathy was reviewed in Reviews A, C and D, which the study's reviewer key records as Gemini, ChatGPT and Grok. The full reviews are in the study archive. Their main points about Odd Sympathy, as the revision answered them:
 
 - **The snap.** A and C argued that, with travel delay, the original forward-only rule cannot produce unison. D disagreed.
 - **Pitch versus rhythm.** A argued that a rhythm lock at a size ratio like 1.47 plays an out-of-tune fifth if pitch comes from size, and that a single tap would make pitch jump.
@@ -86,8 +86,9 @@ The original Tune drawer said **"The triangle can never settle."** In this model
 
 The rules, setups, gestures, hint sequence, intro text and synthesized sound are the original's. The collection version adds what the [instrument contract](INSTRUMENTS.md) requires:
 
+- Rings and ripples keep their relative positions when the field changes size, such as on rotation, so none is left outside the visible stage. The original kept absolute positions.
 - Navigation back to the collection and chemistry, and an About section with keyboard help, an explanation, origins and limits.
-- **Keyboard play.** Each ring is a focusable control: Enter or Space strikes, arrows move, + and − resize, Delete removes, N adds a ring, M mutes, T opens Tune.
+- **Keyboard and screen-reader play.** Each ring is a button, focusable once the intro is gone: activating it (Enter, Space or a screen reader's double-tap) strikes, arrows move, + and − resize, Delete removes, N adds a ring, M mutes, T opens Tune.
 - **Audio lifecycle.** Sound starts only from a gesture. Failures are visible with retry, and the rings keep playing silently. Leaving the tab suspends sound, which needs a new gesture to resume; nothing catches up while away. Navigation closes the audio context.
 - **Reduced motion** removes expanding ripples, flare glows and lurch trails, and shows a tug as a brief rim brightening. Beads still turn, because they are the clocks.
 - **No external requests.** The original loaded two Google Fonts. The display face now uses the original's own fallback serif stack, and body text uses the collection's bundled DM Sans.

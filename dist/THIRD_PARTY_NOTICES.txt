@@ -45,6 +45,6 @@ The broader study's original prompts, cross-reviews, and other participants' art
 
 The simulation, setups and sound synthesis are carried over with their behavior unchanged; changes to the interface, lifecycle and renderer are recorded in `docs/odd-sympathy-provenance.json`, and the study history is summarised in `docs/ODD_SYMPATHY.md`. No sampled sounds, external images, or third-party JavaScript are imported. The original page requested the IM Fell English and Karla fonts from Google Fonts at runtime; this integration does not load or redistribute them, and instead reuses the bundled DM Sans listed above and system serif fonts. The preserved original in `docs/` still contains that font request and is an archive, not part of the deployed site.
 
-The three independent reviewers who critiqued the design are not identified here, and their reviews are not reproduced. Nothing in this import claims authorship of their contributions or of other participants' instruments.
+The three reviewers who critiqued the design (recorded in the study's reviewer key as Gemini, ChatGPT and Grok) are not authors of Odd Sympathy, and their reviews are not reproduced here; they are preserved in the separate study archive under their own terms. Nothing in this import claims authorship of their contributions or of other participants' instruments.
 
 Local copies in this distribution: LICENSE.txt, fonts/DM-Sans-OFL.txt, fonts/Manrope-OFL.txt.

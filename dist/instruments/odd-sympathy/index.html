@@ -15,10 +15,10 @@
 
     <section class="stage" id="stage" aria-label="The Odd Sympathy field">
       <canvas id="field" aria-hidden="true"></canvas>
-      <div class="ring-targets" id="ring-targets" role="group" aria-label="Rings" aria-describedby="ring-keys"></div>
+      <div class="ring-targets" id="ring-targets" data-until-launch inert role="group" aria-label="Rings" aria-describedby="ring-keys"></div>
       <p class="sr-only" id="ring-keys">Enter or Space strikes a ring. Arrow keys move it, plus and minus resize it, Delete removes it. Press N to add a ring.</p>
       <div class="mark" aria-hidden="true">Odd Sympathy</div>
-      <div class="tools">
+      <div class="tools" data-until-launch inert>
         <button class="pill" id="sound-btn" aria-label="Start sound">Sound off</button>
         <button class="pill" id="tune-btn" aria-expanded="false" aria-controls="drawer" title="Tune · T">Tune</button>
       </div>

@@ -15,9 +15,18 @@ const drags = new Map(); // pointerId -> gesture in progress
 let W = 0, H = 0;
 function measure() {
   const b = stage.getBoundingClientRect();
-  if (b.width !== W || b.height !== H) cancelDrags();
+  if (b.width !== W || b.height !== H) {
+    cancelDrags();
+    // Rotation or browser chrome changed the field: keep every ring and ripple in
+    // the same relative place so none is left outside the visible stage.
+    if (W > 0 && H > 0 && b.width > 0 && b.height > 0) remap(b.width / W, b.height / H);
+  }
   W = b.width; H = b.height;
   renderer.resize(W, H, window.devicePixelRatio || 1);
+}
+function remap(sx, sy) {
+  for (const r of field.rings) { r.x *= sx; r.y *= sy; }
+  for (const p of field.pulses) { p.x *= sx; p.y *= sy; }
 }
 measure();
 // Lengths scale with the screen once, at load, so a phone and a desk hold similar fields.
@@ -150,6 +159,7 @@ let focusedId = null, lastTargetSync = 0;
 const targets = new Map();
 function ringLabel(r, i) { return `Ring ${i + 1}, ${noteName(field.freq(r)).split(' ')[0]}`; }
 function syncTargets(force = false) {
+  if (!running) return; // nothing is focusable behind the intro
   const now = performance.now();
   if (!force && now - lastTargetSync < 120) return;
   lastTargetSync = now;
@@ -162,6 +172,8 @@ function syncTargets(force = false) {
       el.addEventListener('focus', () => { focusedId = r.id; });
       el.addEventListener('blur', () => { if (focusedId === r.id) focusedId = null; });
       el.addEventListener('keydown', e => ringKey(e, r));
+      // Enter, Space and screen-reader activation all arrive as a click.
+      el.addEventListener('click', () => strikeRing(r));
       targetLayer.append(el); targets.set(r.id, el);
     }
     const s = Math.max(r.r, 22);
@@ -174,8 +186,8 @@ function ringKey(e, r) {
   if (!running || r.dying) return;
   const step = e.shiftKey ? 3 : 12;
   if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault(); if (e.repeat) return;
-    ensureSoundForKey(); field.strike(r, 1); touched('strike');
+    if (e.repeat) e.preventDefault(); // one strike per press; the button's click does the rest
+    return;
   } else if (e.key.startsWith('Arrow')) {
     e.preventDefault();
     const [dx, dy] = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
@@ -193,6 +205,10 @@ function ringKey(e, r) {
     ((next && targets.get(next.id)) || tuneBtn).focus();
   } else return;
   syncTargets(true);
+}
+function strikeRing(r) {
+  if (!running || r.dying) return;
+  ensureSoundForKey(); field.strike(r, 1); touched('strike');
 }
 function ensureSoundForKey() { if (sound.status === 'idle' || sound.status === 'paused') ensureSound(); }
 function addRing() {
@@ -273,6 +289,7 @@ function begin() {
 }
 function launch() {
   intro.hidden = true;
+  for (const el of document.querySelectorAll('[data-until-launch]')) el.inert = false;
   source = null; running = true;
   for (const r of field.rings) { r.born = field.t; r.lastFire = -9; }
   if (field.rings.length === 1) field.fire(field.rings[0], 0.5);
