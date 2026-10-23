@@ -11,6 +11,8 @@ export class JournalAudio {
       if (!ctx.audioWorklet) { await resumed; throw Error('Sound needs HTTPS or localhost and AudioWorklet support.'); }
       await Promise.all([resumed,ctx.audioWorklet.addModule(new URL('./worklet.mjs',import.meta.url))]);
       if (generation!==this.generation) return false;
+      // Suspension can happen before the statechange handler is installed.
+      if (ctx.state!=='running') throw Error('Sound paused while loading. Enable sound to try again.');
       const node=this.node=new AudioWorkletNode(ctx,'hushpod-journal',{outputChannelCount:[2]});
       this.gain=ctx.createGain(); this.gain.gain.value=0;
       node.connect(this.gain); this.gain.connect(ctx.destination);

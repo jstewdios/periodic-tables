@@ -30,3 +30,15 @@ test('worklet failure closes context; unavailable audio reports a useful error',
  const a=new JournalAudio(()=>{},()=>{});await assert.rejects(a.start(new Experiment().snapshot()),/module failed/);assert.equal(contexts.at(-1).state,'closed');
  globalThis.AudioContext=undefined;await assert.rejects(a.start(new Experiment().snapshot()),/silent experiment/);
 });
+
+test('suspension during module loading rejects startup, cleans up, and permits retry',async()=>{
+ let loaded;
+ globalThis.AudioContext=class extends Context{constructor(){super();this.audioWorklet.addModule=()=>new Promise(r=>loaded=r);}};
+ const a=new JournalAudio(()=>{},()=>{}),state=new Experiment().snapshot();
+ const pending=a.start(state),ctx=a.ctx;
+ ctx.state='suspended';ctx.onstatechange?.();loaded();
+ await assert.rejects(pending,/paused while loading/);
+ assert.equal(ctx.state,'closed');assert.equal(a.ctx,null);assert.equal(a.node,null);
+ globalThis.AudioContext=Context;
+ assert.equal(await a.start(state),true);assert.deepEqual(a.node.messages[0],{type:'restore',state});a.stop();
+});

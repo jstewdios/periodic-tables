@@ -71,6 +71,29 @@ try {
   assert.equal(await page.evaluate(()=>localStorage.getItem('test-closed-contexts')),'2','navigation closes audio');
   await context.close();console.log(`PASS journal ${width}×${height} reduced=${reduce}: phase keyboard, real model, pause, audio handoff, lifecycle, navigation`);
  }
+ // Force a real context suspension before the pending worklet load settles.
+ const interrupted=await browser.newContext();await monitor(interrupted);
+ await interrupted.addInitScript(()=>{
+   const Native=window.AudioContext;let first=true;
+   window.AudioContext=class extends Native {
+     constructor(...args){super(...args);if(first){first=false;
+       const load=this.audioWorklet.addModule.bind(this.audioWorklet);
+       this.audioWorklet.addModule=async(...args)=>{await load(...args);await this.suspend();};
+     }}
+   };
+ });
+ const interruptedPage=await interrupted.newPage();await interruptedPage.goto(origin+'/journal/hushpod/');
+ await interruptedPage.locator('#run').click();await interruptedPage.locator('#sound').click();
+ await waitFor(async()=>/paused while loading/.test(await interruptedPage.locator('#status').textContent()),'startup suspension reported');
+ assert.equal(await interruptedPage.locator('#sound').getAttribute('aria-pressed'),'false');
+ assert.equal(await interruptedPage.evaluate(()=>testContexts[0].state),'closed');
+ const held=await interruptedPage.locator('#clock').textContent();
+ await waitFor(async()=>await interruptedPage.locator('#clock').textContent()!==held,'silent authority resumes after failed startup');
+ await interruptedPage.locator('#sound').click();
+ await waitFor(async()=>await interruptedPage.locator('#sound').getAttribute('aria-pressed')==='true','explicit retry enables sound');
+ const resumed=await interruptedPage.locator('#clock').textContent();
+ await waitFor(async()=>await interruptedPage.locator('#clock').textContent()!==resumed,'retried worklet evolves');
+ await interrupted.close();console.log('PASS suspension during module loading: cleanup, silent continuation, explicit audio retry');
  const context=await browser.newContext();await monitor(context);await context.addInitScript(()=>{window.AudioContext=undefined;window.webkitAudioContext=undefined;});
  const page=await context.newPage();await page.goto(origin+'/journal/hushpod/');await page.locator('#sound').click();assert.match(await page.locator('#status').textContent(),/unavailable/);
  await page.locator('#run').click();await waitFor(async()=>Number(await page.locator('#action').textContent())<.49,'silent fallback');await context.close();

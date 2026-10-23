@@ -29,7 +29,7 @@ Opt-in audio transfers the state to the worklet, which becomes the sole simulati
 
 The suite covers 1440×1000, 390×844, 320×568, 844×390 and reduced motion; keyboard phase endpoints, silent evolution, waist release, pause, real AudioWorklet handoff, reset, synthetic visibility lifecycle, navigation cleanup, missing-audio fallback, and failed assets/page errors.
 
-The automated browser suite remains unexecuted: the cloud browser cannot reach workspace localhost, and the Playwright Chromium download returned an invalid/truncated archive. No automated viewport-matrix pass is claimed.
+At initial PR publication, the automated browser suite remained unexecuted: the cloud browser cannot reach workspace localhost, and the Playwright Chromium download returned an invalid/truncated archive. No automated viewport-matrix pass was claimed at that stage.
 
 ### Deployed desktop browser check (2026-10-23)
 
@@ -42,6 +42,14 @@ After James authorized temporary preview access, the deployed journal was inspec
 - Navigation opened the complete Hushpod instrument. Browser Back returned to the journal paused, with sound disabled and the explicit resume message.
 
 The browser log inspection showed extension metadata errors; none of the inspected errors originated in journal code. This is not a full network/error audit. Audio activation and state evolution were verified, not subjective speaker audibility. Mobile viewport, reduced-motion emulation, and the complete automated interaction suite remain unverified in this environment.
+
+### Review follow-up (2026-10-23)
+
+All 70 unit tests and production syntax checks pass. Startup now rechecks the AudioContext after resume/module loading; a context suspended during that wait is closed and reported as a retryable error, so the silent experiment continues. A deterministic unit regression covers cleanup and retry.
+
+The automated journal suite now passes in workspace-local headless Chromium on the cloud execution machine (Playwright with `/usr/bin/chromium`, not the remote cloud-browser service). All five viewport/reduced-motion cases listed above pass, including real AudioWorklet evolution, keyboard controls, lifecycle cleanup, navigation, no-audio fallback, and no failed assets or page exceptions. An added real-context regression forces suspension before module loading settles and verifies the error, closed context, silent continuation, and successful explicit audio retry. This forced race does not establish real OS/audio-focus behavior.
+
+James separately reports successful manual use on Windows 10 Chrome/Firefox and Pixel 6 Chrome. That report is supplemental device evidence, not proof of the suspension race or speaker measurements. iOS/Safari, screen readers and hardware audibility remain unverified here. Published model-check and verification-record links now use `main`, so feature-branch deletion cannot break them.
 
 ## Honest limits
 
