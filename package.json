@@ -9,9 +9,10 @@
   },
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.js tests/hushpod/*.test.mjs tests/odd-sympathy/*.test.mjs",
+    "test": "node --test tests/*.test.js tests/hushpod/*.test.mjs tests/odd-sympathy/*.test.mjs tests/journal/*.test.mjs",
     "check": "node scripts/check-syntax.mjs",
     "dev": "python3 -m http.server 4173 --directory dist",
-    "test:browser": "node scripts/browser-smoke.mjs"
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "test:journal:browser": "node scripts/journal-browser.mjs"
   }
 }
