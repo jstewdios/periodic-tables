@@ -58,3 +58,9 @@ One useful question or correction can make a good contribution. Read the short [
 Changes to scientific matching or data should retain the core guarantees in `tests/chemistry.test.js`: no invented values, no simplified molecular formulas, no fictitious molecules for extended solids, and no claim that an unmatched composition is impossible.
 
 Validation includes chemistry checks, Hushpod's original model and processor checks, a replay of the preserved original Odd Sympathy against its collection version, and audio lifecycle regression tests. An optional browser smoke runner exercises the real pages and AudioWorklet. See [instrument architecture and contributor notes](docs/INSTRUMENTS.md), [Hushpod provenance](docs/hushpod-provenance.json), the [Odd Sympathy study record](docs/ODD_SYMPATHY.md) and [provenance](docs/odd-sympathy-provenance.json), and the [first-slice test record](docs/INSTRUMENT_TESTING.md). Real Android and iOS testing remains a release follow-up; emulation does not establish speaker quality or OS interruption behavior.
+
+## Playable journal
+
+[The Sound That Was Still There](dist/journal/hushpod/index.html) is a focused Hushpod research story at `/journal/hushpod/`. Compare oscillator action with the actual combined pickup, prepare different starting phases, and break cancellation by narrowing a waist. Sound is opt-in. [Reproduction, evidence and testing gaps](docs/JOURNAL_HUSHPOD.md).
+
+`npm run test:journal:browser` runs the optional focused Playwright suite (development dependency only; see the verification record for setup and current execution gaps).
