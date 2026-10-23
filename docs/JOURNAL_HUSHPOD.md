@@ -29,7 +29,7 @@ Opt-in audio transfers the state to the worklet, which becomes the sole simulati
 
 The suite covers 1440×1000, 390×844, 320×568, 844×390 and reduced motion; keyboard phase endpoints, silent evolution, waist release, pause, real AudioWorklet handoff, reset, synthetic visibility lifecycle, navigation cleanup, missing-audio fallback, and failed assets/page errors.
 
-Local browser execution currently blocked: the cloud browser cannot reach the workspace localhost, and the Playwright Chromium download returned an invalid/truncated archive. The suite is authored but not yet claimed passing. Deployment-browser observations, if available, are recorded below.
+Local browser execution currently blocked: the cloud browser cannot reach the workspace localhost, and the Playwright Chromium download returned an invalid/truncated archive. The suite is authored but not yet claimed passing. The Vercel preview built and the cloud browser reached its Vercel authentication page, not the journal. Automatic approval review rejected creation of a temporary share-access URL because it expands access to whoever holds that URL. No journal screenshot, responsive-layout result, real browser AudioWorklet behavior, or browser interaction pass is claimed. The PR remains draft pending browser validation.
 
 ## Honest limits
 

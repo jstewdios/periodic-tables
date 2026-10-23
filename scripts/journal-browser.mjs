@@ -40,10 +40,6 @@ async function monitor(context) {
     page.on('response',response=>{if(response.status()>=400)errors.push(`${response.status()} ${response.url()}`);});
   });
 }
-async function center(page,selector){const b=await page.locator(selector).boundingBox();assert.ok(b,selector);return{x:b.x+b.width/2,y:b.y+b.height/2};}
-async function tapPocket(page,index){const p=await center(page,`[data-pocket="${index}"]`);await page.touchscreen.tap(p.x,p.y);}
-async function gesture(session,type,points){await session.send('Input.dispatchTouchEvent',{type,touchPoints:points});}
-const touch=(id,p)=>({id,x:p.x,y:p.y,radiusX:7,radiusY:7,force:1});
 async function noOverflow(page){assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'no horizontal overflow');}
 
 try {
