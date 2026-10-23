@@ -29,7 +29,19 @@ Opt-in audio transfers the state to the worklet, which becomes the sole simulati
 
 The suite covers 1440×1000, 390×844, 320×568, 844×390 and reduced motion; keyboard phase endpoints, silent evolution, waist release, pause, real AudioWorklet handoff, reset, synthetic visibility lifecycle, navigation cleanup, missing-audio fallback, and failed assets/page errors.
 
-Local browser execution currently blocked: the cloud browser cannot reach the workspace localhost, and the Playwright Chromium download returned an invalid/truncated archive. The suite is authored but not yet claimed passing. The Vercel preview built and the cloud browser reached its Vercel authentication page, not the journal. Automatic approval review rejected creation of a temporary share-access URL because it expands access to whoever holds that URL. No journal screenshot, responsive-layout result, real browser AudioWorklet behavior, or browser interaction pass is claimed. The PR remains draft pending browser validation.
+The automated browser suite remains unexecuted: the cloud browser cannot reach workspace localhost, and the Playwright Chromium download returned an invalid/truncated archive. No automated viewport-matrix pass is claimed.
+
+### Deployed desktop browser check (2026-10-23)
+
+After James authorized temporary preview access, the deployed journal was inspected in cloud Chrome at approximately 1348×926. The introduction, experiment, meters and article layout rendered cleanly in screenshots. These manual browser interactions passed:
+
+- Keyboard Home on the phase control prepared N = 0.5000 and pickup squared = 1.0000; End restored the quiet phase.
+- Silent evolution showed N = 0.4823 at 0.40 s with displayed pickup 0.0000.
+- Opt-in sound loaded the actual worklet and supplied evolving measurements. After narrowing a waist and pausing at 7.4015 s, N = 0.2568450792, pickup squared = 0.2161296849, waist openness = (0.2, 1), and action accounting residual = 2.18e-12.
+- Pause held the clock at 7.40 s across subsequent actions; sound disable, reset, re-enable, and explicit Start worked.
+- Navigation opened the complete Hushpod instrument. Browser Back returned to the journal paused, with sound disabled and the explicit resume message.
+
+The browser log inspection showed extension metadata errors; none of the inspected errors originated in journal code. This is not a full network/error audit. Audio activation and state evolution were verified, not subjective speaker audibility. Mobile viewport, reduced-motion emulation, and the complete automated interaction suite remain unverified in this environment.
 
 ## Honest limits
 
