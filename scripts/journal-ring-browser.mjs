@@ -40,7 +40,10 @@ try {
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'no horizontal overflow');
     assert.equal(await page.evaluate(() => testContexts.length), 0, 'no audio context before opt-in');
     assert.equal(await page.locator('#sum').textContent(), '−23.46 ¢');
-    await page.locator('#push').click(); await page.locator('#run').click();
+    await page.locator('#push').click();
+    const wide = await page.evaluate(() => { const r = document.querySelectorAll('#bars .bar-set rect')[2], vb = document.getElementById('bars').viewBox.baseVal; return { y: +r.getAttribute('y'), h: +r.getAttribute('height'), top: vb.y }; });
+    assert.ok(wide.y >= wide.top && wide.h > 75, 'the +18-cent fifth is drawn in full: ' + JSON.stringify(wide));
+    await page.locator('#run').click();
     await waitFor(async () => (await measurements(page)).time > 6, 'ring evolves');
     const m = await measurements(page); assert.equal(m.sumCents, -23.46); assert.ok(m.errorsCents[3] < -15, 'roughness keeps the narrowed fifth deep');
     await page.locator('#run').click(); const held = await page.locator('#clock').textContent(); await pause(300);

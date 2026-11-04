@@ -17,6 +17,7 @@ const at = (a, r) => [CX + r * Math.cos(a), CY + r * Math.sin(a)];
 const arc = (a0, a1, r) => { const [x0, y0] = at(a0, r), [x1, y1] = at(a1, r); return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r} ${r} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`; };
 const el = (parent, name, attrs) => { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); parent.appendChild(n); return n; };
 function mix(a, b, t) { return 'rgb(' + a.map((v, k) => Math.round(v + (b[k] - v) * t)).join(',') + ')'; }
+const ZERO = 140, PX = 4.5;   // bars: zero line and pixels per cent, room for ±24 cents either way
 const PURE = [111, 143, 127], WOLF = [239, 199, 142], HOT = [240, 138, 106];
 const errColor = e => { const t = Math.min(1, Math.abs(e) / 24); return t < .5 ? mix(PURE, WOLF, t * 2) : mix(WOLF, HOT, (t - .5) * 2); };
 const ring = $('ring'), bars = $('bars'), parts = { band: null, edges: [], labels: [], nodes: [], bars: [], barLabels: [] };
@@ -32,8 +33,8 @@ for (let i = 0; i < N; i++) {
   el(g, 'text', { x: nx.toFixed(1), y: (ny + 4.5).toFixed(1) }).textContent = i;
   parts.nodes.push(g);
   const x = 16 + i * 38;
-  parts.bars.push(el(bars.querySelector('.bar-set'), 'rect', { x, y: 40, width: 26, height: 0, rx: 2 }));
-  el(bars.querySelector('.bar-axis'), 'text', { x: x + 13, y: 26 }).textContent = i;
+  parts.bars.push(el(bars.querySelector('.bar-set'), 'rect', { x, y: ZERO, width: 26, height: 0, rx: 2 }));
+  el(bars.querySelector('.bar-axis'), 'text', { x: x + 13, y: 18 }).textContent = i;
 }
 function draw(s) {
   const e = s.eps, w = win.edge;
@@ -41,8 +42,8 @@ function draw(s) {
     const p = parts.edges[i]; p.style.stroke = errColor(e[i]); p.style.strokeWidth = (5 + Math.min(22, Math.abs(e[i])) * .75).toFixed(1);
     const label = parts.labels[i]; label.textContent = cents(e[i], Math.abs(e[i]) < 9.995 ? 2 : 1).replace(' ¢', ''); label.classList.toggle('hot', Math.abs(e[i]) > 6);
     const sounding = i === w || i === (w + 1) % N; parts.nodes[i].classList.toggle('sounding', sounding && audio.playing);
-    const b = parts.bars[i], h = Math.min(24, Math.abs(e[i])) * 6;
-    b.setAttribute('y', e[i] < 0 ? 40 : 40 - h); b.setAttribute('height', Math.max(1, h).toFixed(1)); b.style.fill = errColor(e[i]);
+    const b = parts.bars[i], h = Math.min(24, Math.abs(e[i])) * PX;
+    b.setAttribute('y', e[i] < 0 ? ZERO : ZERO - h); b.setAttribute('height', Math.max(1, h).toFixed(1)); b.style.fill = errColor(e[i]);
     b.classList.toggle('heard', i === w);
   }
   const a0 = angle(w) + PAD - .05, a1 = angle(w + 1) - PAD + .05;

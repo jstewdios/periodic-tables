@@ -35,6 +35,6 @@
     "scripts/journal-ring-browser.mjs"
   ],
   "not_imported": "Nothing else from the Round 4 build. The full instrument is served as an unchanged copy, not added to the instrument catalog.",
-  "license_note": "The source archive has no separate license file. Added here at the owner's request; under this repository's MIT license unless the owner says otherwise at review.",
+  "license_note": "The source archive has no separate license file. Added here at the owner's request; the owner confirmed on 2026-11-04 that these copies fall under this repository's MIT license.",
   "verification_record": "docs/JOURNAL_RING.md"
 }
