@@ -1,10 +1,10 @@
 /* Collection pages share the original type, color, and focus system. */
 .collection-page{--page-width:1240px;background:radial-gradient(ellipse at 10% 0%,#d6f58a05,transparent 35%),var(--bg)}
 .collection-page .site-header{max-width:var(--page-width);min-height:100px;padding:1.25rem 2rem;gap:2rem}
-.collection-page .brand{font-size:1.2rem;gap:.75rem}
+.collection-page .brand{font-size:1.2rem;gap:.75rem;min-height:44px}
 .collection-page .brand-mark{width:37px;height:42px;font-size:1.3rem}
 .collection-page .brand-mark small{font-size:.6rem}
-.collection-page .site-header nav{margin:0 0 0 auto;gap:.5rem}
+.collection-page .site-header nav{margin:0 0 0 auto;gap:.5rem;order:0;width:auto;border:0;padding:0;justify-content:flex-end;overflow:visible}
 .collection-page .site-header nav a{padding:.7rem .8rem;color:var(--muted);border-radius:0}
 .collection-page .site-header nav a[aria-current]{color:var(--accent);box-shadow:inset 0 -1px var(--accent)}
 .collection-page .header-source{font-size:.8rem;color:var(--muted);padding:.75rem 0 .75rem 1.5rem;border-left:1px solid var(--border)}
@@ -34,7 +34,7 @@
 .play-link{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:46px;border:1px solid #64734e;border-radius:6px;padding:.65rem .9rem;background:#d6f58a0c;color:#e0efc3;font-size:.85rem;font-weight:500;transition:background .15s}
 .play-link:hover{background:#d6f58a1a}
 .play-link>span{font-size:1.05rem}
-.related-note,.instrument-extra{font-size:.68rem;line-height:1.6;margin:1.05rem 0;color:var(--quiet);min-height:38px}
+.related-note,.instrument-extra{font-size:.68rem;line-height:1.6;margin:1.05rem 0;color:var(--quiet);min-height:44px}
 .related-note{display:block}.related-note>span{display:block;color:#b6c6bf}
 .related-note:hover>span{color:var(--accent)}
 .instrument-extra{display:flex;align-items:center;max-width:250px}
@@ -101,7 +101,7 @@
  .instruments{grid-template-columns:1fr;gap:1.3rem}.instrument-preview{height:210px}
  .instrument-copy{padding:1.3rem 1.25rem .55rem}.instrument-copy>.eyebrow{font-size:.62rem}
  .instrument-copy h2{font-size:1.9rem;margin:.4rem 0 .65rem}.instrument-description{font-size:.92rem;margin-bottom:1.15rem}
- .play-link{min-height:48px;font-size:.88rem}.related-note,.instrument-extra{margin:.9rem 0;min-height:34px;font-size:.71rem}.related-note>span{display:inline;margin-left:.5rem}
+ .play-link{min-height:48px;font-size:.88rem}.related-note,.instrument-extra{margin:.9rem 0;min-height:44px;font-size:.71rem}.related-note>span{display:inline;margin-left:.5rem}
  .instrument-notes summary{min-height:46px;font-size:.76rem}
  .home-journal{margin-top:3.6rem}.section-title{align-items:flex-start;flex-wrap:wrap;gap:.6rem;margin-bottom:1.3rem}
  .section-title h2{font-size:2.6rem}.section-title p:last-child{font-size:.88rem;max-width:260px}

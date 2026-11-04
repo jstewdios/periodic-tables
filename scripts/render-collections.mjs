@@ -10,6 +10,11 @@ const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', 
 const external = 'target="_blank" rel="noopener noreferrer"';
 const arrow = '<span aria-hidden="true">↗</span>';
 const source = 'https://github.com/jstewdios/periodic-tables';
+// Catalog links are relative to /instruments/; emitted links are relative to /.
+function homepageHref(href) {
+  const url = new URL(href, 'https://collection.invalid/instruments/');
+  return url.pathname.slice(1) + url.search + url.hash;
+}
 const svg = content => `<svg viewBox="0 0 360 220" fill="none" focusable="false">${content}</svg>`;
 
 const previews = {
@@ -36,9 +41,9 @@ function footer(base) {
 function instrumentCard(item) {
   const entry=entries.find(e=>e.id===item.id);
   return `<article class="instrument-card ${item.id}">
-    <a class="instrument-preview" href="${item.href.slice(3)}" tabindex="-1" aria-hidden="true">${previews[item.id]}</a>
+    <a class="instrument-preview" href="${homepageHref(item.href)}" tabindex="-1" aria-hidden="true">${previews[item.id]}</a>
     <div class="instrument-copy"><p class="eyebrow">${escape(item.category)}</p><h2>${escape(item.name)}</h2><p class="instrument-description">${escape(item.description)}</p>
-    <a class="play-link" href="${item.href.slice(3)}">${escape(item.action)} ${arrow}</a>
+    <a class="play-link" href="${homepageHref(item.href)}">${escape(item.action)} ${arrow}</a>
     ${entry ? `<a class="related-note" href="journal/${entry.id}/">Field Note ${entry.number} <span>${entry.id==='hushpod'?'The sound that was still there':'Read &amp; play'} ${arrow}</span></a>` : (item.id==='chemistry'?'<p class="instrument-extra">Table · workbench · trails · collection</p>':`<a class="related-note" href="${source}/blob/main/docs/ODD_SYMPATHY.md" ${external}>From the collaborative study <span>Odd Sympathy’s study record ${arrow}</span></a>`)}
     <details class="instrument-notes"><summary>About &amp; source</summary><p class="status">${escape(item.status)}</p><p>${escape(item.notes)}</p><p>${escape(item.credit)}</p><a href="${item.source}" ${external}>Source &amp; attribution ${arrow}</a></details></div>
   </article>`;

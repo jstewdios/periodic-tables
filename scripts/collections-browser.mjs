@@ -34,7 +34,7 @@ try {
     const cards=await page.locator('.instrument-card').evaluateAll(items=>items.map(i=>({x:i.getBoundingClientRect().x,y:i.getBoundingClientRect().y})));
     if(width<=760)assert.ok(cards[1].y>cards[0].y&&cards[1].x===cards[0].x,'phone uses one column');
     else assert.equal(cards[1].y,cards[0].y,'desktop uses equal columns');
-    for(const selector of ['.play-link','.read-link','.site-header nav a','summary'])for(const box of await page.locator(selector).evaluateAll(items=>items.map(i=>({h:i.getBoundingClientRect().height}))))assert.ok(box.h>=44,selector+' target height');
+    for(const selector of ['.play-link','.read-link','.related-note','.site-header .brand','.site-header nav a','summary'])for(const box of await page.locator(selector).evaluateAll(items=>items.map(i=>({h:i.getBoundingClientRect().height}))))assert.ok(box.h>=44,selector+' target height');
     if(width===1440||width===390)await shot(page,`homepage-${width===1440?'desktop':'phone'}`);
     await page.getByRole('link',{name:'Journal',exact:true}).click();await page.waitForURL('**/journal/');await noOverflow(page);
     assert.equal(await page.locator('nav [aria-current=page]').textContent(),'Journal');
