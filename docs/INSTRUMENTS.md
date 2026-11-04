@@ -6,14 +6,18 @@ Use **ordinary static document navigation** as the experiment boundary. This is 
 
 | URL | Responsibility |
 | --- | --- |
-| `/` and existing `/#table`, `/#workbench`, `/#everyday`, `/#trails`, `/#collection` | Existing chemistry application |
-| `/instruments/` | Invitation, two collection entries, status, source and credit |
+| `/` | Instruments homepage, with three instruments and both published Field Notes |
+| `/chemistry/` and its `#table`, `#workbench`, `#everyday`, `#trails`, `#collection` fragments | Existing chemistry application |
+| Original root chemistry fragments (for example `/#workbench`) | History-replacing compatibility handoff to the same fragment at `/chemistry/` |
+| `/instruments/` | History-replacing compatibility alias for the homepage (static link fallback without JavaScript) |
+| `/journal/` | Journal collection |
+| `/journal/hushpod/`, `/journal/ring/` | Independent playable research stories |
 | `/instruments/hushpod/` | Independent Hushpod document, UI, model, renderer and audio |
 | `/instruments/odd-sympathy/` | Independent Odd Sympathy document, UI, model, renderer and audio |
 
-Links are relative, so the same tree also works under a static-host subdirectory. No rewrite rules or catch-all route are necessary. There is no extra Hushpod download when someone opens chemistry or the collection. The chemistry collection storage key and schema remain `periodic-tables.collection.v1`; no migration is needed. An unsaved workbench is still in-memory. Normal browser history may retain it, but full document reload does not promise to restore it.
+Links are relative, so the same tree also works under a static-host subdirectory. No rewrite rules or catch-all route are necessary. `dist/home.js` recognizes only the five original chemistry fragments, preserves query strings, and uses `location.replace` so compatibility handoffs do not create back-button loops. All other homepage fragments remain on the homepage. There is no extra Hushpod download when someone opens chemistry or the collection. The chemistry collection storage key and schema remain `periodic-tables.collection.v1`; no migration is needed. An unsaved workbench is still in-memory. Normal browser history may retain it, but full document reload does not promise to restore it.
 
-`dist/instruments/catalog.js` is a small authored metadata array. The launcher renders it without importing any instrument's engine. The optional preview artwork is in the launcher's `app.js`; it has no scientific meaning and does not drive the instrument. There are three entries: unfinished prototypes do not appear as unavailable promises.
+`dist/instruments/catalog.js` and `dist/journal/catalog.js` are separate authored metadata arrays. `scripts/render-collections.mjs` writes complete static homepage and Journal HTML, including small illustrative SVG previews; it imports no simulation engine. Run `npm run render:collections` after editing a catalog or template, and commit the output. `npm run check` verifies it is current. There is no production build step or client rendering requirement. The artwork does not drive the experiments. The three instruments and two research stories keep distinct catalogs.
 
 ## Minimal instrument contract
 
