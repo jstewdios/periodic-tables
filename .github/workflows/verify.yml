@@ -1,0 +1,47 @@
+name: Verify collection
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '22'
+      - name: Model, navigation and static checks
+        run: |
+          npm test
+          npm run check
+      - name: Install browser tooling for verification only
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Collection layouts, history, keyboard and screenshots
+        env:
+          SCREENSHOT_DIR: test-results/collections
+        run: npm run test:collections:browser
+      - name: Existing instruments, chemistry saves and audio lifecycle
+        if: ${{ !cancelled() }}
+        run: npm run test:browser
+      - name: Hushpod journal
+        if: ${{ !cancelled() }}
+        run: npm run test:journal:browser
+      - name: Ring journal and archived instrument
+        if: ${{ !cancelled() }}
+        run: npm run test:journal:ring:browser
+      - uses: actions/upload-artifact@v7.0.2
+        if: ${{ !cancelled() }}
+        with:
+          name: collection-screenshots
+          path: test-results/collections/
+          if-no-files-found: warn
+          retention-days: 14

@@ -8,7 +8,7 @@ The registered primary domain is [periodictables.xyz](https://periodictables.xyz
 
 ## The first collection
 
-Open **Instruments** in the chemistry navigation, or go straight to `/instruments/`. The collection currently contains chemistry, **Hushpod**, a self-contained, touch-playable coupled-resonator prototype, and **Odd Sympathy**, a field of pulse-coupled ring clocks where size is tempo and tempo is pitch. Each keeps its own interface, source, and credits. Existing chemistry URLs and saved discoveries are unchanged.
+The homepage is the **Instruments** collection. Chemistry lives at `/chemistry/`, and the playable **Journal** has its own index at `/journal/`. Existing `/instruments/` bookmarks still open the homepage; original chemistry fragment links such as `/#workbench` open the corresponding chemistry view. The collection currently contains chemistry, **Hushpod**, a self-contained, touch-playable coupled-resonator prototype, and **Odd Sympathy**, a field of pulse-coupled ring clocks where size is tempo and tempo is pitch. Each keeps its own interface, source, and credits. Existing chemistry URLs and saved discoveries are unchanged.
 
 - **The table:** all 118 elements; family colors, electron-pull gradients, room-temperature states, and atomic number; element details, source links, arrow-key navigation, and optional sonification.
 - **Compound workbench:** tap or drag elements, adjust atom counts, and explore 14 authored compositions. Molecular models show connectivity; ionic/network solids show ratios. Unmatched compositions stay open questions.
@@ -61,8 +61,14 @@ Validation includes chemistry checks, Hushpod's original model and processor che
 
 ## Playable journal
 
+Browse both Field Notes at `/journal/`, or open either directly from the homepage. The Journal keeps focused investigations separate from the three full instruments. The collection pages are complete static HTML and remain browsable without JavaScript. To edit a collection, update `dist/instruments/catalog.js`, `dist/journal/catalog.js`, or the template in `scripts/render-collections.mjs`, then run `npm run render:collections` and commit the generated HTML. `npm run check` catches stale pages; hosting still requires no build step.
+
 [The Sound That Was Still There](dist/journal/hushpod/index.html) is a focused Hushpod research story at `/journal/hushpod/`. Compare oscillator action with the actual combined pickup, prepare different starting phases, and break cancellation by narrowing a waist. Sound is opt-in. [Reproduction, evidence and testing gaps](docs/JOURNAL_HUSHPOD.md).
 
 [The Ring That Will Not Close](dist/journal/ring/index.html) is Field Note 002 at `/journal/ring/`. Push one voice of a twelve-voice ring of fifths and compare where a roughness ear and a quadratic ear leave the Pythagorean comma. It runs the archived Study 02 ring core unchanged and links to an unchanged copy of the full Round 4 instrument. Sound is opt-in. [Reproduction, evidence and testing gaps](docs/JOURNAL_RING.md).
 
 `npm run test:journal:browser` runs the optional focused Playwright suite (development dependency only; see the verification record for setup and current execution gaps). `npm run test:journal:ring:browser` does the same for the Ring.
+
+`npm run test:collections:browser` checks the homepage and Journal at desktop, phone, narrow-phone, tablet and landscape sizes, plus legacy navigation, history, keyboard, reduced motion and no-JavaScript browsing. The GitHub verification workflow runs this alongside all three existing browser suites; its `collection-screenshots` artifact contains the desktop and phone captures.
+
+See the [homepage verification record](docs/HOMEPAGE_TESTING.md) for navigation details, desktop/phone-layout captures, and current browser/device testing limits.

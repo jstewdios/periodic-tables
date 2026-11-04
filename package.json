@@ -10,10 +10,12 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js tests/hushpod/*.test.mjs tests/odd-sympathy/*.test.mjs tests/journal/*.test.mjs",
-    "check": "node scripts/check-syntax.mjs",
+    "check": "node scripts/check-syntax.mjs && node scripts/render-collections.mjs --check",
     "dev": "python3 -m http.server 4173 --directory dist",
     "test:browser": "node scripts/browser-smoke.mjs",
     "test:journal:browser": "node scripts/journal-browser.mjs",
-    "test:journal:ring:browser": "node scripts/journal-ring-browser.mjs"
+    "test:journal:ring:browser": "node scripts/journal-ring-browser.mjs",
+    "render:collections": "node scripts/render-collections.mjs",
+    "test:collections:browser": "node scripts/collections-browser.mjs"
   }
 }
