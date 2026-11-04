@@ -1,4 +1,4 @@
-# First instrument slice — issue #3
+# Instrument collection — issue #3
 
 ## Architecture decision
 
@@ -88,3 +88,5 @@ npm run test:browser
 ```
 
 `scripts/browser-smoke.mjs` starts its own local static server, drives Chromium, and closes both. Set `SCREENSHOT_DIR` to save local QA captures; leave it unset in CI. `PLAYWRIGHT_MODULE` and `CHROMIUM_PATH` can point to an existing Playwright module and browser executable in a managed runtime. No autoplay-bypass flags are used. The runner covers served pages, actual AudioWorklet loading, touch events via CDP, and synthetic visibility events; the latter exercise our handlers rather than simulate an entire operating system.
+
+The homepage/Journal navigation, screenshots, and current verification limits are recorded in [HOMEPAGE_TESTING.md](HOMEPAGE_TESTING.md).

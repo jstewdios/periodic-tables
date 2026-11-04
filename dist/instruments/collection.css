@@ -5,7 +5,7 @@
 .collection-page .brand-mark{width:37px;height:42px;font-size:1.3rem}
 .collection-page .brand-mark small{font-size:.6rem}
 .collection-page .site-header nav{margin:0 0 0 auto;gap:.5rem;order:0;width:auto;border:0;padding:0;justify-content:flex-end;overflow:visible}
-.collection-page .site-header nav a{padding:.7rem .8rem;color:var(--muted);border-radius:0}
+.collection-page .site-header nav a{min-height:44px;display:flex;align-items:center;padding:.7rem .8rem;color:var(--muted);border-radius:0}
 .collection-page .site-header nav a[aria-current]{color:var(--accent);box-shadow:inset 0 -1px var(--accent)}
 .collection-page .header-source{font-size:.8rem;color:var(--muted);padding:.75rem 0 .75rem 1.5rem;border-left:1px solid var(--border)}
 .collection-page main{max-width:var(--page-width);padding:3.4rem 2rem 4rem}

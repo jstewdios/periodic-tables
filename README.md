@@ -70,3 +70,5 @@ Browse both Field Notes at `/journal/`, or open either directly from the homepag
 `npm run test:journal:browser` runs the optional focused Playwright suite (development dependency only; see the verification record for setup and current execution gaps). `npm run test:journal:ring:browser` does the same for the Ring.
 
 `npm run test:collections:browser` checks the homepage and Journal at desktop, phone, narrow-phone, tablet and landscape sizes, plus legacy navigation, history, keyboard, reduced motion and no-JavaScript browsing. The GitHub verification workflow runs this alongside all three existing browser suites; its `collection-screenshots` artifact contains the desktop and phone captures.
+
+See the [homepage verification record](docs/HOMEPAGE_TESTING.md) for navigation details, desktop/phone-layout captures, and current browser/device testing limits.
