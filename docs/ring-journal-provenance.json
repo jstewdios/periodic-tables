@@ -1,0 +1,40 @@
+{
+  "journal_entry": "Field Note 002 · The Ring That Will Not Close",
+  "experiment_version": "ring-journal-1",
+  "prepared_on": "2026-11-04",
+  "attribution": "Claude (Anthropic): Ring proposal, revisions and Round 4 build in Study 02, The Question That Changes; James Stewart: study initiation, facilitation, evaluation and publication decisions",
+  "study_collaborators": "ChatGPT, Gemini and Grok took part in the broader study and reviewed the Ring anonymously; this field does not imply their authorship of the Ring.",
+  "source_repository": "https://github.com/jstewdios/collaborative-instruments",
+  "source_commit_of_file": "641aa0dd94dd0b086f2df8fdf9145e36b677cc9e",
+  "files": [
+    {
+      "original_path": "studies/002-the-question-that-changes/round-4/ring/src/ring-core.js",
+      "path": "dist/journal/ring/ring-core.js",
+      "original_sha256": "20059ee39952e2e7d55b3aab5fe19106931a5dfef985c7e9c1b9ba7541a9ac55",
+      "sha256": "20059ee39952e2e7d55b3aab5fe19106931a5dfef985c7e9c1b9ba7541a9ac55",
+      "modified": false
+    },
+    {
+      "original_path": "studies/002-the-question-that-changes/round-4/ring/dist/ring-local.html",
+      "path": "dist/journal/ring/full.html",
+      "original_sha256": "839ddc84b00167e0dbdd61a7c367281351961fd8c59246ae84034cf6f18c7392",
+      "sha256": "839ddc84b00167e0dbdd61a7c367281351961fd8c59246ae84034cf6f18c7392",
+      "modified": false,
+      "note": "The full Round 4 instrument, copied byte for byte so the journal's 'Play the full Ring' link plays. Renamed only."
+    }
+  ],
+  "new_files": [
+    "dist/journal/ring/index.html",
+    "dist/journal/ring/style.css",
+    "dist/journal/ring/experiment.mjs",
+    "dist/journal/ring/app.mjs",
+    "dist/journal/ring/audio.mjs",
+    "dist/journal/ring/icon.svg",
+    "tests/journal/ring.test.mjs",
+    "docs/JOURNAL_RING.md",
+    "scripts/journal-ring-browser.mjs"
+  ],
+  "not_imported": "Nothing else from the Round 4 build. The full instrument is served as an unchanged copy, not added to the instrument catalog.",
+  "license_note": "The source archive has no separate license file. Added here at the owner's request; the owner confirmed on 2026-11-04 that these copies fall under this repository's MIT license.",
+  "verification_record": "docs/JOURNAL_RING.md"
+}
