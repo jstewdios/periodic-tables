@@ -63,4 +63,6 @@ Validation includes chemistry checks, Hushpod's original model and processor che
 
 [The Sound That Was Still There](dist/journal/hushpod/index.html) is a focused Hushpod research story at `/journal/hushpod/`. Compare oscillator action with the actual combined pickup, prepare different starting phases, and break cancellation by narrowing a waist. Sound is opt-in. [Reproduction, evidence and testing gaps](docs/JOURNAL_HUSHPOD.md).
 
-`npm run test:journal:browser` runs the optional focused Playwright suite (development dependency only; see the verification record for setup and current execution gaps).
+[The Ring That Will Not Close](dist/journal/ring/index.html) is Field Note 002 at `/journal/ring/`. Push one voice of a twelve-voice ring of fifths and compare where a roughness ear and a quadratic ear leave the Pythagorean comma. It runs the archived Study 02 ring core unchanged and links to an unchanged copy of the full Round 4 instrument. Sound is opt-in. [Reproduction, evidence and testing gaps](docs/JOURNAL_RING.md).
+
+`npm run test:journal:browser` runs the optional focused Playwright suite (development dependency only; see the verification record for setup and current execution gaps). `npm run test:journal:ring:browser` does the same for the Ring.

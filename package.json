@@ -13,6 +13,7 @@
     "check": "node scripts/check-syntax.mjs",
     "dev": "python3 -m http.server 4173 --directory dist",
     "test:browser": "node scripts/browser-smoke.mjs",
-    "test:journal:browser": "node scripts/journal-browser.mjs"
+    "test:journal:browser": "node scripts/journal-browser.mjs",
+    "test:journal:ring:browser": "node scripts/journal-ring-browser.mjs"
   }
 }

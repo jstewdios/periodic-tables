@@ -1,0 +1,654 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>The Ring That Will Not Close</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an instrument bench. The ring (canvas) is the instrument; a control strip beside/below it; the rules and the
+   evidence are plain text underneath, because they are part of the instrument too. */
+:root {
+  --bg: #eceeea; --panel: #f8f9f7; --fg: #1a1f23; --muted: #5a6670; --line: #cfd5d2;
+  --pure: #0e7c73; --wolf: #b45309; --wolf-hot: #b91c1c; --window: #1d4ed8; --pin: #1a1f23;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15181b; --panel: #1e2327; --fg: #e6e8e4; --muted: #9aa5ad; --line: #343b41;
+  --pure: #2fc4b4; --wolf: #f0a233; --wolf-hot: #f05b5b; --window: #7aa2ff; --pin: #e6e8e4; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #15181b; --panel: #1e2327; --fg: #e6e8e4; --muted: #9aa5ad; --line: #343b41;
+  --pure: #2fc4b4; --wolf: #f0a233; --wolf-hot: #f05b5b; --window: #7aa2ff; --pin: #e6e8e4; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.45;
+  padding-block: 18px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: 0.005em; text-wrap: balance; margin: 0 }
+h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.05 }
+h2 { font-size: 20px; margin-top: 6px }
+h3 { font-size: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600 }
+p { margin: 0 }
+.lede { color: var(--muted); max-width: 62ch; margin-top: 6px }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 18px }
+.bench { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(300px, 420px); gap: 18px; align-items: start }
+@media (max-width: 820px) { .bench { grid-template-columns: 1fr } }
+.stage { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px; min-width: 0 }
+canvas { display: block; width: 100%; max-width: 100%; touch-action: none; border-radius: 4px }
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px 14px; margin-top: 8px; font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums }
+.readout b { display: block; font-family: var(--body); font-weight: 500; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em }
+.controls { display: grid; gap: 14px; min-width: 0 }
+.group { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px; display: grid; gap: 10px }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 5px; overflow: hidden }
+.seg button { border: 0; background: transparent; color: var(--fg); padding: 8px 12px; font: inherit; cursor: pointer; min-height: 40px }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg) }
+.seg button + button { border-left: 1px solid var(--line) }
+button.act { border: 1px solid var(--line); background: var(--panel); color: var(--fg); padding: 8px 12px; border-radius: 5px; font: inherit; cursor: pointer; min-height: 40px }
+button.act.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 500 }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--window); outline-offset: 2px }
+label.sl { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; font-size: 13px }
+label.sl span.v { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums }
+label.sl input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--fg) }
+.hint { color: var(--muted); font-size: 12.5px }
+.ticks { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: -6px }
+details { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px }
+summary { cursor: pointer; font-family: var(--display); font-weight: 600; font-size: 17px }
+details > div { margin-top: 8px; display: grid; gap: 8px; max-width: 78ch }
+code, pre { font-family: var(--mono); font-size: 12.5px }
+pre { background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 10px; overflow-x: auto; white-space: pre; max-width: 100%; margin: 0 }
+ol.try { margin: 0; padding-left: 20px; display: grid; gap: 6px }
+.curve { width: 100%; height: 110px; display: block }
+.tag { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 1px 6px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted) }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>The Ring That Will Not Close</h1>
+    <p class="lede">Twelve voices on a ring. Each is told one thing: be a pure fifth above the voice to your left. Around the ring that is impossible by 23.46 cents, the Pythagorean comma, so the error has to live somewhere. You hear the ring one fifth at a time, as a tuner would. Push a voice, pin a voice, change what the ring minds about, and listen to where the comma goes.</p>
+  </header>
+
+  <div class="bench">
+    <div class="stage">
+      <canvas id="ring" width="700" height="700" aria-label="The ring of twelve voices. Arcs are the twelve fifths; the arc color shows the error on each fifth; the highlighted arc is the fifth you are hearing."></canvas>
+      <div class="readout">
+        <div><b>Sum of errors</b><span id="rSum">−23.46 ¢</span></div>
+        <div><b>Largest error</b><span id="rWolf">—</span></div>
+        <div><b>Hearing</b><span id="rHear">—</span></div>
+        <div><b>Ring pitch</b><span id="rDrift">0.0 ¢</span></div>
+        <div><b>Total discomfort</b><span id="rCost">—</span></div>
+        <div><b>Pinned</b><span id="rPin">none</span></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="group">
+        <div class="row">
+          <button class="act primary" id="btnSound">Sound on</button>
+          <div class="seg" role="group" aria-label="What you hear">
+            <button id="hearWindow" aria-pressed="true">One fifth at a time</button>
+            <button id="hearChord" aria-pressed="false">All twelve at once</button>
+          </div>
+        </div>
+        <label class="sl"><span>Window dwell (seconds on each fifth)</span><span class="v" id="vDwell">2.0 s</span>
+          <input type="range" id="dwell" min="0.5" max="4" step="0.1" value="2"></label>
+        <div class="row">
+          <span class="hint">Window moves</span>
+          <div class="seg" role="group" aria-label="Window direction">
+            <button id="dirFwd" aria-pressed="true">up the ring →</button>
+            <button id="dirBack" aria-pressed="false">← down the ring</button>
+          </div>
+          <span class="hint">Register</span>
+          <div class="seg" role="group" aria-label="Register">
+            <button data-reg="110" aria-pressed="false">A2</button>
+            <button data-reg="220" aria-pressed="true">A3</button>
+            <button data-reg="440" aria-pressed="false">A4</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <h3>What the ring minds</h3>
+        <div class="seg" role="group" aria-label="Discomfort curve">
+          <button id="costQuad" aria-pressed="false">Quadratic (ε²)</button>
+          <button id="costRough" aria-pressed="true">Roughness of the actual sound</button>
+        </div>
+        <svg class="curve" id="curve" viewBox="0 0 400 110" aria-label="The discomfort curve over plus and minus 60 cents, with the twelve current errors marked"></svg>
+        <p class="hint" id="curveHint">Sensory roughness (Sethares) of this timbre at this register, computed from the same six-harmonic tone you are hearing. It has a sharp V at the pure fifth and flattens outward: small errors cost almost as much as big ones.</p>
+      </div>
+
+      <div class="group">
+        <h3>How the voices listen</h3>
+        <label class="sl"><span>Listening direction λ</span><span class="v" id="vLam">mutual</span>
+          <input type="range" id="lam" min="0" max="1" step="0.05" value="0.5"></label>
+        <div class="ticks"><span>each follows its right neighbour</span><span>mutual</span><span>each follows its left</span></div>
+        <label class="sl"><span>Speed of retuning</span><span class="v" id="vRate">1.0×</span>
+          <input type="range" id="rate" min="0.25" max="4" step="0.25" value="1"></label>
+        <label class="sl"><span>Noise (cents · √s)</span><span class="v" id="vNoise">0.01</span>
+          <input type="range" id="noise" min="0" max="0.2" step="0.01" value="0.01"></label>
+        <div class="row">
+          <label class="row" style="gap:6px"><input type="checkbox" id="gate"> Tuner mode: only the fifth you are hearing retunes</label>
+        </div>
+        <p class="hint" id="gateHint">Off: every fifth relaxes all the time. On: nothing moves except the sounding pair, and λ decides which of its two voices gives way. A dwell of about 2 s lets the tuner finish; a hurried tuner (short dwell) leaves the job half done and the comma smears.</p>
+      </div>
+
+      <div class="group">
+        <h3>Set the ring</h3>
+        <div class="row">
+          <button class="act" id="pEqual">Equal temperament</button>
+          <button class="act" id="pWolf">One wolf</button>
+          <button class="act" id="pSplit">Two half-wolves</button>
+          <button class="act" id="pScatter">Scatter</button>
+          <button class="act" id="pUnpin">Unpin all</button>
+        </div>
+        <p class="hint">Drag a voice up or down to push its pitch. Tap a voice to pin it (it stops listening). Pins are shown as rings.</p>
+      </div>
+    </div>
+  </div>
+
+  <details open>
+    <summary>What to try</summary>
+    <div>
+      <ol class="try">
+        <li><b>Hear the wolf.</b> Turn sound on. The ring starts with eleven pure fifths and one wolf. Let the window go round once. Pure fifths are still; the wolf beats.</li>
+        <li><b>Forgetting and remembering.</b> With <i>Quadratic</i>, press <i>Equal temperament</i>, then drag any voice 20 cents and let go: the ring returns to equal temperament every time. Switch to <i>Roughness</i> and do the same: the comma stays, as a wolf, wherever your push left it.</li>
+        <li><b>Equal temperament falls apart.</b> With <i>Roughness</i>, press <i>Equal temperament</i> and wait. Twelve slightly flat fifths condense into one wolf in under a minute, on an edge the noise picks. Press again; it picks a different edge.</li>
+        <li><b>Drift without transport.</b> Set λ fully to one side (each voice follows one neighbour). The whole ring slides in pitch, several cents a second, and the wolf stays exactly where it was.</li>
+        <li><b>The tuner's shadow.</b> Turn on <i>Tuner mode</i> with λ at <i>follows its left</i> and the window moving up the ring. Every fifth you arrive at is the wolf; you tune it pure, and it is waiting on the next one. Set λ to <i>mutual</i> instead and go round several times: the tuner equal-tempers the ring by halves.</li>
+        <li><b>The control.</b> Switch to <i>All twelve at once</i>. Now try to say where the wolf is.</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>The rules, exactly</summary>
+    <div>
+      <p>Pitch classes θ₀…θ₁₁ in cents. The error on edge i is the fifth's mistuning:</p>
+      <pre>ε_i = wrap(θ_{i+1} − θ_i − 701.955)            wrap into (−600, 600]
+Σ ε_i = −23.46 + 1200·k                          always; k is a winding number
+
+θ̇_i = R · [ (1−λ)·g_i·F(ε_i) − λ·g_{i−1}·F(ε_{i−1}) ]
+F = D′, the slope of the chosen discomfort curve D
+λ = ½  mutual (gradient descent on Σ D(ε_i));  λ = 1  each voice follows its left neighbour;  λ = 0  its right
+g_i = 1,  or in tuner mode  g_i = 3 on the sounding edge and 0 elsewhere
+pinned voices: θ̇_i = 0.   noise: + σ·√dt·N(0,1) per voice per sub-step (σ shown above; set it to 0)</pre>
+      <p><b>Quadratic:</b> D = ε²/2, F = ε. <b>Roughness:</b> Sethares sensory dissonance of two six-harmonic tones (amplitudes 0.88ᵏ⁻¹) for a lower voice at the middle of the chosen octave, as a function of the fifth's mistuning, over the whole sector; smoothed with σ = 0.5 cents so the V at the pure fifth has finite stiffness; F normalised so max|F| within ±60 cents is 12. The same curve is used on every edge (the true curve varies a little with the lower voice's frequency within the octave; that variation is dropped).</p>
+      <p>Integration: explicit Euler, 4 ms sub-steps, 2-cent cap per sub-step. There are no other rules, no special cases, and nothing scripted. Everything you hear and see follows from the lines above; the full source is in the page.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Check the claims on this device</summary>
+    <div>
+      <p class="hint">Runs the headless checks (no sound) on the same code the instrument uses, in about a second, and prints the raw numbers.</p>
+      <div class="row"><button class="act" id="btnChecks">Run checks</button></div>
+      <pre id="checksOut" hidden></pre>
+    </div>
+  </details>
+
+  <p class="hint">Study 02 — The Question That Changes, Round 4. Claude's realization of its Round 1–3 invention. Interface and sound are supporting machinery; the mechanism is the four lines above. <span class="tag">v1 · 2026-10-21</span></p>
+</div>
+
+<script>/* The Ring That Will Not Close — simulation core (Round 4)
+ *
+ * Twelve voices on a ring. Each voice is told: be a pure fifth (3:2, 701.955 cents)
+ * above the voice to your left. Around the ring that demand overshoots the octave by the
+ * Pythagorean comma c = 23.46 cents, so the twelve errors eps_i always sum to -c (+1200k).
+ *
+ * The only rules implemented here:
+ *   eps_i      = wrap(theta_{i+1} - theta_i - DELTA)                 error on edge i (cents)
+ *   theta_i'   = R * [ (1-lambda) * g_i * F(eps_i)  -  lambda * g_{i-1} * F(eps_{i-1}) ]
+ *                 F = D' for the chosen discomfort curve D
+ *                 lambda = 1: each voice follows its left neighbour (one-way)
+ *                 lambda = 1/2: mutual (gradient descent on sum D(eps_i))
+ *                 lambda = 0: each voice follows its right neighbour
+ *                 g_i = 1 normally; in tuner mode g_i = gateRate on the sounding edge and 0 elsewhere
+ *   pinned voices do not move; optional tiny noise (disclosed, adjustable, can be zero)
+ * Nothing else. No special cases.
+ */
+(function (root) {
+  'use strict';
+  const N = 12;
+  const DELTA = 1200 * Math.log2(1.5);          // 701.955 cents
+  const C = N * DELTA - 7 * 1200;               // 23.460 cents
+  const SUBDT = 0.004;                           // integration sub-step (s)
+
+  function wrap(x) {                             // into (-600, 600]
+    let y = ((x + 600) % 1200 + 1200) % 1200 - 600;
+    return y === -600 ? 600 : y;
+  }
+
+  function errors(theta, out) {
+    out = out || new Float64Array(N);
+    for (let i = 0; i < N; i++) out[i] = wrap(theta[(i + 1) % N] - theta[i] - DELTA);
+    return out;
+  }
+
+  /* ---------- discomfort curves ---------- */
+
+  // Quadratic: D = eps^2/2, F = eps (cents). Convex: spreads the comma.
+  function makeQuadratic() {
+    return {
+      kind: 'quadratic',
+      label: 'Quadratic',
+      D: (e) => 0.5 * e * e,
+      F: (e) => e,
+      range: 600
+    };
+  }
+
+  // Sethares sensory roughness of the actual dyad (two tones with nh harmonics, amplitudes
+  // decay^(k-1)), as a function of the fifth's mistuning eps, computed for a lower voice at
+  // frequency f0 (we use the middle of the sounding octave). The curve is tabulated on a
+  // 0.25-cent grid over the whole sector (-600, 600], lightly smoothed (sigma 0.5 cents) so the
+  // V-shaped cusp at the pure fifth has finite stiffness, and its derivative F is normalised so
+  // that max |F| within +-60 cents equals FNORM. Parameters after Sethares (1993), from memory.
+  function makeRoughness(f0, opts) {
+    opts = opts || {};
+    const nh = opts.harmonics || 6, decay = opts.decay == null ? 0.88 : opts.decay;
+    const step = 0.25, sigma = opts.sigma == null ? 0.5 : opts.sigma, FNORM = opts.fnorm || 12;
+    const M = Math.round(1200 / step);          // grid points over (-600, 600]
+    const eps = new Float64Array(M), raw = new Float64Array(M);
+    const amps = [], freqs = [];
+    for (let k = 1; k <= nh; k++) amps.push(Math.pow(decay, k - 1));
+    const pair = (f1, f2, a1, a2) => {
+      if (f2 < f1) { const t = f1; f1 = f2; f2 = t; const u = a1; a1 = a2; a2 = u; }
+      const s = 0.24 / (0.021 * f1 + 19), x = s * (f2 - f1);
+      return Math.min(a1, a2) * (Math.exp(-3.5 * x) - Math.exp(-5.75 * x));
+    };
+    for (let m = 0; m < M; m++) {
+      const e = -600 + step * (m + 1);           // (-600, 600]
+      eps[m] = e;
+      const fh = f0 * Math.pow(2, (DELTA + e) / 1200);
+      let tot = 0;
+      for (let k = 1; k <= nh; k++) for (let j = 1; j <= nh; j++) tot += pair(f0 * k, fh * j, amps[k - 1], amps[j - 1]);
+      raw[m] = tot;
+    }
+    // Gaussian smoothing (circular in eps, since the sector is a circle)
+    const rad = Math.ceil(3 * sigma / step), ker = [];
+    let ksum = 0;
+    for (let r = -rad; r <= rad; r++) { const w = Math.exp(-0.5 * (r * step / sigma) ** 2); ker.push(w); ksum += w; }
+    const D = new Float64Array(M);
+    for (let m = 0; m < M; m++) {
+      let acc = 0;
+      for (let r = -rad; r <= rad; r++) acc += ker[r + rad] * raw[(m + r + M) % M];
+      D[m] = acc / ksum;
+    }
+    const d0 = D[Math.round(600 / step) - 1];   // value at eps = 0
+    for (let m = 0; m < M; m++) D[m] -= d0;
+    // derivative (central, circular) and normalisation
+    const F = new Float64Array(M);
+    for (let m = 0; m < M; m++) F[m] = (D[(m + 1) % M] - D[(m - 1 + M) % M]) / (2 * step);
+    let fmax = 0;
+    for (let m = 0; m < M; m++) if (Math.abs(eps[m]) <= 60 && Math.abs(F[m]) > fmax) fmax = Math.abs(F[m]);
+    const scale = FNORM / fmax;
+    for (let m = 0; m < M; m++) { F[m] *= scale; D[m] *= scale; }
+    const lookup = (tab, e) => {
+      const x = (wrap(e) + 600) / step - 1;      // fractional index
+      const i0 = Math.floor(x), fr = x - i0;
+      const a = tab[(i0 % M + M) % M], b = tab[((i0 + 1) % M + M) % M];
+      return a + (b - a) * fr;
+    };
+    return {
+      kind: 'roughness',
+      label: 'Roughness (Sethares, this timbre at ' + Math.round(f0) + ' Hz)',
+      D: (e) => lookup(D, e),
+      F: (e) => lookup(F, e),
+      table: { eps, D, F },
+      f0, range: 600
+    };
+  }
+
+  /* ---------- state & dynamics ---------- */
+
+  function thetaFromErrors(epsArr) {             // theta_0 = 0, then cumulative
+    const th = new Float64Array(N);
+    for (let i = 1; i < N; i++) th[i] = th[i - 1] + DELTA + epsArr[i - 1];
+    return th;
+  }
+  function presetET() { const e = new Float64Array(N).fill(-C / N); return thetaFromErrors(e); }
+  function presetWolf(edge) { const e = new Float64Array(N); e[((edge % N) + N) % N] = -C; return thetaFromErrors(e); }
+  function presetSplit(e1, e2) { const e = new Float64Array(N); e[e1] = -C / 2; e[e2] = -C / 2; return thetaFromErrors(e); }
+  function presetScatter(rand) {                 // random all-negative allocation summing to -C
+    const w = new Float64Array(N); let s = 0;
+    for (let i = 0; i < N; i++) { w[i] = -Math.log(1 - rand()); s += w[i]; }
+    const e = new Float64Array(N);
+    for (let i = 0; i < N; i++) e[i] = -C * w[i] / s;
+    return thetaFromErrors(e);
+  }
+
+  function gaussian(rand) {
+    let u = 0, v = 0;
+    while (u === 0) u = rand();
+    while (v === 0) v = rand();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
+  // One integration step of length dt (s). params:
+  //   cost (from makeQuadratic / makeRoughness), lambda in [0,1], rate R (per s),
+  //   gate: null or {edges:[...], rate}, pinned: Uint8Array(12) or null, noise (cents/sqrt s), rand()
+  const _eps = new Float64Array(N), _Fe = new Float64Array(N), _g = new Float64Array(N), _v = new Float64Array(N);
+  function step(theta, params, dt) {
+    const cost = params.cost, lam = params.lambda, R = params.rate;
+    const nsub = Math.max(1, Math.ceil(dt / SUBDT)), h = dt / nsub;
+    const pinned = params.pinned, noise = params.noise || 0, rand = params.rand || Math.random;
+    for (let i = 0; i < N; i++) _g[i] = 1;
+    if (params.gate) {
+      for (let i = 0; i < N; i++) _g[i] = 0;
+      for (const w of params.gate.edges) _g[((w % N) + N) % N] = params.gate.rate;
+    }
+    for (let s = 0; s < nsub; s++) {
+      errors(theta, _eps);
+      for (let i = 0; i < N; i++) _Fe[i] = _g[i] * cost.F(_eps[i]);
+      for (let i = 0; i < N; i++) {
+        const im = (i + N - 1) % N;
+        _v[i] = R * ((1 - lam) * _Fe[i] - lam * _Fe[im]);
+      }
+      for (let i = 0; i < N; i++) {
+        if (pinned && pinned[i]) continue;
+        let d = _v[i] * h;
+        if (d > 2) d = 2; else if (d < -2) d = -2;          // cap: 2 cents per sub-step
+        theta[i] += d;
+        if (noise > 0) theta[i] += noise * Math.sqrt(h) * gaussian(rand);
+      }
+    }
+  }
+
+  function metrics(theta, cost) {
+    const e = errors(theta);
+    let sum = 0, total = 0, wolf = 0, meanPitch = 0;
+    for (let i = 0; i < N; i++) { sum += e[i]; total += cost.D(e[i]); if (Math.abs(e[i]) > Math.abs(e[wolf])) wolf = i; meanPitch += theta[i]; }
+    return { eps: e, sum, cost: total, wolfEdge: wolf, wolfDepth: e[wolf], meanPitch: meanPitch / N };
+  }
+
+  // Deterministic PRNG for tests (mulberry32)
+  function makeRand(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  const api = { N, DELTA, C, wrap, errors, makeQuadratic, makeRoughness, thetaFromErrors,
+    presetET, presetWolf, presetSplit, presetScatter, step, metrics, makeRand };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.RingCore = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+</script>
+<script>
+(function () {
+  'use strict';
+  const RC = window.RingCore;
+  const N = RC.N, DELTA = RC.DELTA, C = RC.C;
+
+  /* ---------- state ---------- */
+  const S = {
+    theta: RC.presetWolf(5), pinned: new Uint8Array(N),
+    costKind: 'roughness', cost: null, quad: RC.makeQuadratic(), rough: null,
+    lambda: 0.5, rate: 1, noise: 0.01, gate: false,
+    hear: 'window', winEdge: 0, winT: 0, dwell: 2, dir: 1,
+    register: 220, soundOn: false, refPitch: 0, t: 0,
+    drag: null, rand: Math.random
+  };
+  S.refPitch = mean(S.theta);
+  function mean(a) { let s = 0; for (let i = 0; i < N; i++) s += a[i]; return s / N; }
+  function pc(x) { return ((x % 1200) + 1200) % 1200; }
+  function buildRough() { S.rough = RC.makeRoughness(S.register * Math.SQRT2); }
+  buildRough();
+  function cost() { return S.costKind === 'quadratic' ? S.quad : S.rough; }
+
+  /* ---------- audio ---------- */
+  let ctx = null, master = null, voices = [];
+  function initAudio() {
+    if (ctx) return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    ctx = new AC();
+    const real = new Float32Array(7), imag = new Float32Array(7);
+    for (let k = 1; k <= 6; k++) imag[k] = Math.pow(0.88, k - 1);
+    const wave = ctx.createPeriodicWave(real, imag);
+    master = ctx.createGain(); master.gain.value = 0.35; master.connect(ctx.destination);
+    for (let i = 0; i < N; i++) {
+      const osc = ctx.createOscillator(); osc.setPeriodicWave(wave); osc.frequency.value = 220;
+      const g = ctx.createGain(); g.gain.value = 0;
+      osc.connect(g); g.connect(master); osc.start();
+      voices.push({ osc, g });
+    }
+  }
+  let lastEdge = -1, lastHear = '';
+  function updateAudio() {
+    if (!ctx) return;
+    const now = ctx.currentTime, e = RC.errors(S.theta), B = S.register;
+    const jump = S.winEdge !== lastEdge || S.hear !== lastHear;    // a voice changing role may change octave: jump, don't glide
+    lastEdge = S.winEdge; lastHear = S.hear;
+    for (let i = 0; i < N; i++) {
+      let f, gain = 0;
+      if (S.hear === 'chord') { f = B * Math.pow(2, pc(S.theta[i]) / 1200); gain = S.soundOn ? 0.22 : 0; }
+      else {
+        const w = S.winEdge, up = (w + 1) % N;
+        const lower = B * Math.pow(2, pc(S.theta[w]) / 1200);
+        if (i === w) { f = lower; gain = S.soundOn ? 0.5 : 0; }
+        else if (i === up) { f = lower * Math.pow(2, (DELTA + e[w]) / 1200); gain = S.soundOn ? 0.42 : 0; }
+        else { f = B * Math.pow(2, pc(S.theta[i]) / 1200); gain = 0; }
+      }
+      if (jump) { voices[i].osc.frequency.cancelScheduledValues(now); voices[i].osc.frequency.setValueAtTime(f, now); }
+      else voices[i].osc.frequency.setTargetAtTime(f, now, 0.015);
+      voices[i].g.gain.setTargetAtTime(gain, now, 0.06);
+    }
+  }
+
+  /* ---------- simulation loop ---------- */
+  let last = null;
+  function frame(ts) {
+    if (last == null) last = ts;
+    let dt = Math.min(0.05, (ts - last) / 1000); last = ts;
+    // window clock
+    S.winT += dt;
+    if (S.winT >= S.dwell) { S.winT -= S.dwell; S.winEdge = (S.winEdge + S.dir + N) % N; }
+    // dynamics
+    const pinned = S.pinned.slice();
+    if (S.drag) pinned[S.drag.i] = 1;
+    const params = { cost: cost(), lambda: S.lambda, rate: S.rate, noise: S.noise, pinned,
+      gate: S.gate ? { edges: [S.winEdge], rate: 3 } : null, rand: S.rand };
+    RC.step(S.theta, params, dt);
+    S.t += dt;
+    updateAudio();
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- drawing ---------- */
+  const cv = document.getElementById('ring'), cx2 = cv.getContext('2d');
+  function errColor(e) {
+    const a = Math.min(1, Math.abs(e) / 24);
+    const c1 = cssVar('--pure'), c2 = cssVar('--wolf'), c3 = cssVar('--wolf-hot');
+    return a < 0.5 ? mix(c1, c2, a * 2) : mix(c2, c3, (a - 0.5) * 2);
+  }
+  const varCache = {};
+  function cssVar(n) { return varCache[n] || (varCache[n] = getComputedStyle(document.documentElement).getPropertyValue(n).trim()); }
+  function hex(c) { c = c.replace('#', ''); if (c.length === 3) c = c.split('').map(x => x + x).join(''); return [0, 2, 4].map(k => parseInt(c.substr(k, 2), 16)); }
+  function mix(a, b, t) { const A = hex(a), B = hex(b); return 'rgb(' + A.map((v, k) => Math.round(v + (B[k] - v) * t)).join(',') + ')'; }
+  function invalidateVars() { for (const k in varCache) delete varCache[k]; }
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', invalidateVars);
+  new MutationObserver(invalidateVars).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  function geometry() {
+    const W = cv.width, R0 = W * 0.36, cxp = W / 2, cyp = W / 2;
+    const pos = [];
+    for (let i = 0; i < N; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / N; pos.push([cxp + R0 * Math.cos(a), cyp + R0 * Math.sin(a), a]); }
+    return { W, R0, cxp, cyp, pos };
+  }
+  function draw() {
+    const g = geometry(), e = RC.errors(S.theta), ctx2 = cx2, W = g.W;
+    ctx2.clearRect(0, 0, W, W);
+    ctx2.fillStyle = cssVar('--panel'); ctx2.fillRect(0, 0, W, W);
+    const fg = cssVar('--fg'), muted = cssVar('--muted'), line = cssVar('--line');
+    // arcs
+    for (let i = 0; i < N; i++) {
+      const a0 = g.pos[i][2], a1 = g.pos[(i + 1) % N][2] + (i === N - 1 ? 2 * Math.PI : 0);
+      const pad = 0.16;
+      ctx2.beginPath(); ctx2.arc(g.cxp, g.cyp, g.R0, a0 + pad, a1 - pad);
+      ctx2.strokeStyle = errColor(e[i]); ctx2.lineWidth = 6 + Math.min(22, Math.abs(e[i])) * 0.9; ctx2.lineCap = 'round'; ctx2.stroke();
+      if (S.hear === 'window' && i === S.winEdge) {
+        // the listening window: a translucent band over the sounding fifth, and its dwell progress outside it
+        ctx2.save(); ctx2.globalAlpha = 0.22;
+        ctx2.beginPath(); ctx2.arc(g.cxp, g.cyp, g.R0, a0 + pad - 0.05, a1 - pad + 0.05);
+        ctx2.strokeStyle = cssVar('--window'); ctx2.lineWidth = 44; ctx2.lineCap = 'butt'; ctx2.stroke();
+        ctx2.restore();
+        const frac = S.winT / S.dwell, aa = a0 + pad, ab = aa + (a1 - pad - aa) * (S.dir > 0 ? frac : 1 - frac);
+        ctx2.beginPath(); ctx2.arc(g.cxp, g.cyp, g.R0 + 34, aa, a1 - pad);
+        ctx2.strokeStyle = cssVar('--line'); ctx2.lineWidth = 5; ctx2.lineCap = 'round'; ctx2.stroke();
+        ctx2.beginPath(); ctx2.arc(g.cxp, g.cyp, g.R0 + 34, S.dir > 0 ? aa : ab, S.dir > 0 ? ab : a1 - pad);
+        ctx2.strokeStyle = cssVar('--window'); ctx2.lineWidth = 7; ctx2.stroke();
+      }
+      // error label at arc middle
+      const am = (a0 + a1) / 2, rl = g.R0 - 50, ev = Math.abs(e[i]) < 0.05 ? 0 : e[i];
+      ctx2.fillStyle = Math.abs(e[i]) > 6 ? errColor(e[i]) : muted;
+      ctx2.font = (Math.abs(e[i]) > 6 ? '500 ' : '400 ') + Math.round(W * 0.026) + 'px ' + cssVar('--mono');
+      ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+      ctx2.fillText((ev > 0 ? '+' : '') + ev.toFixed(1), g.cxp + rl * Math.cos(am), g.cyp + rl * Math.sin(am));
+    }
+    // nodes
+    for (let i = 0; i < N; i++) {
+      const [x, y] = g.pos[i], rr = W * 0.031;
+      const sounding = S.hear === 'chord' || i === S.winEdge || i === (S.winEdge + 1) % N;
+      ctx2.beginPath(); ctx2.arc(x, y, rr, 0, 2 * Math.PI);
+      ctx2.fillStyle = sounding && S.soundOn ? fg : cssVar('--panel'); ctx2.fill();
+      ctx2.lineWidth = 2.5; ctx2.strokeStyle = fg; ctx2.stroke();
+      if (S.pinned[i] || (S.drag && S.drag.i === i)) { ctx2.beginPath(); ctx2.arc(x, y, rr + 7, 0, 2 * Math.PI); ctx2.lineWidth = 3; ctx2.strokeStyle = cssVar('--pin'); ctx2.stroke(); }
+      ctx2.fillStyle = sounding && S.soundOn ? cssVar('--panel') : fg;
+      ctx2.font = '600 ' + Math.round(W * 0.028) + 'px ' + cssVar('--display'); ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+      ctx2.fillText(String(i), x, y + 1);
+    }
+    if (S.drag) {
+      const [x, y] = g.pos[S.drag.i];
+      ctx2.fillStyle = fg; ctx2.font = '500 ' + Math.round(W * 0.03) + 'px ' + cssVar('--mono'); ctx2.textAlign = 'center';
+      ctx2.fillText((S.drag.delta >= 0 ? '+' : '') + S.drag.delta.toFixed(1) + ' ¢', x, y - W * 0.07);
+    }
+    // centre text
+    ctx2.fillStyle = muted; ctx2.font = '400 ' + Math.round(W * 0.024) + 'px ' + cssVar('--body'); ctx2.textAlign = 'center';
+    ctx2.fillText('the comma must live somewhere', g.cxp, g.cyp - W * 0.03);
+    ctx2.fillStyle = fg; ctx2.font = '500 ' + Math.round(W * 0.07) + 'px ' + cssVar('--display');
+    ctx2.fillText('−23.46 ¢', g.cxp, g.cyp + W * 0.03);
+    // readouts
+    const m = RC.metrics(S.theta, cost());
+    setText('rSum', (m.sum >= 0 ? '+' : '−') + Math.abs(m.sum).toFixed(2) + ' ¢');
+    setText('rWolf', (m.wolfDepth >= 0 ? '+' : '−') + Math.abs(m.wolfDepth).toFixed(1) + ' ¢ on fifth ' + m.wolfEdge);
+    setText('rHear', S.hear === 'chord' ? 'all twelve' : 'fifth ' + S.winEdge + ' (voices ' + S.winEdge + '–' + ((S.winEdge + 1) % N) + '), ' + (e[S.winEdge] >= 0 ? '+' : '−') + Math.abs(e[S.winEdge]).toFixed(1) + ' ¢');
+    const d = m.meanPitch - S.refPitch;
+    setText('rDrift', (Math.abs(d) < 0.05 ? '' : d > 0 ? '+' : '−') + Math.abs(d).toFixed(1) + ' ¢' + (Math.abs(d) > 1200 ? ' (' + (d / 1200).toFixed(1) + ' oct)' : ''));
+    setText('rCost', m.cost.toFixed(1));
+    const pins = []; for (let i = 0; i < N; i++) if (S.pinned[i]) pins.push(i);
+    setText('rPin', pins.length ? pins.join(', ') : 'none');
+    if ((frameNo++ % 6) === 0) drawCurve(e);
+  }
+  let frameNo = 0;
+  function setText(id, s) { const el = document.getElementById(id); if (el.textContent !== s) el.textContent = s; }
+
+  const curveEl = document.getElementById('curve');
+  let curvePath = '';
+  function drawCurve(e) {
+    const cst = cost(), x0 = 14, x1 = 386, y0 = 8, y1 = 96, span = 60;
+    let dmax = 0; for (let k = -span; k <= span; k += 2) dmax = Math.max(dmax, cst.D(k));
+    const X = v => x0 + (v + span) / (2 * span) * (x1 - x0), Y = v => y1 - (v / dmax) * (y1 - y0);
+    let p = ''; for (let k = -span; k <= span; k += 1) p += (k === -span ? 'M' : 'L') + X(k).toFixed(1) + ' ' + Y(cst.D(k)).toFixed(1) + ' ';
+    const fg = cssVar('--fg'), muted = cssVar('--muted');
+    let dots = '';
+    for (let i = 0; i < N; i++) { const v = Math.max(-span, Math.min(span, e[i])); dots += '<circle cx="' + X(v).toFixed(1) + '" cy="' + Y(cst.D(v)).toFixed(1) + '" r="4" fill="' + errColor(e[i]) + '" stroke="' + fg + '" stroke-width="1"/>'; }
+    curveEl.innerHTML = '<line x1="' + X(0) + '" y1="' + y0 + '" x2="' + X(0) + '" y2="' + y1 + '" stroke="' + muted + '" stroke-dasharray="2 3"/>' +
+      '<path d="' + p + '" fill="none" stroke="' + fg + '" stroke-width="1.6"/>' + dots +
+      '<text x="' + x0 + '" y="106" font-size="9" fill="' + muted + '" font-family="' + cssVar('--mono') + '">−60 ¢</text>' +
+      '<text x="' + X(0) + '" y="106" font-size="9" fill="' + muted + '" text-anchor="middle" font-family="' + cssVar('--mono') + '">pure fifth</text>' +
+      '<text x="' + x1 + '" y="106" font-size="9" fill="' + muted + '" text-anchor="end" font-family="' + cssVar('--mono') + '">+60 ¢</text>';
+  }
+
+  /* ---------- pointer interaction ---------- */
+  function nodeAt(px, py) {
+    const g = geometry(), r = cv.getBoundingClientRect(), sx = cv.width / r.width;
+    const x = (px - r.left) * sx, y = (py - r.top) * sx;
+    for (let i = 0; i < N; i++) { const [nx, ny] = g.pos[i]; if (Math.hypot(nx - x, ny - y) < g.W * 0.05) return i; }
+    return -1;
+  }
+  cv.addEventListener('pointerdown', (ev) => {
+    const i = nodeAt(ev.clientX, ev.clientY); if (i < 0) return;
+    cv.setPointerCapture(ev.pointerId);
+    S.drag = { i, y0: ev.clientY, theta0: S.theta[i], delta: 0, moved: false, id: ev.pointerId };
+    ev.preventDefault();
+  });
+  cv.addEventListener('pointermove', (ev) => {
+    if (!S.drag || ev.pointerId !== S.drag.id) return;
+    const r = cv.getBoundingClientRect(), scale = 120 / r.height;      // cents per pixel: a full canvas drag is 120 cents
+    const d = -(ev.clientY - S.drag.y0) * scale;
+    if (Math.abs(ev.clientY - S.drag.y0) > 3) S.drag.moved = true;
+    S.drag.delta = Math.max(-120, Math.min(120, d));
+    S.theta[S.drag.i] = S.drag.theta0 + S.drag.delta;
+  });
+  function endDrag(ev) {
+    if (!S.drag || ev.pointerId !== S.drag.id) return;
+    if (!S.drag.moved) S.pinned[S.drag.i] = S.pinned[S.drag.i] ? 0 : 1;
+    S.drag = null;
+  }
+  cv.addEventListener('pointerup', endDrag); cv.addEventListener('pointercancel', endDrag);
+
+  /* ---------- controls ---------- */
+  const $ = id => document.getElementById(id);
+  function seg(ids, onPick) { ids.forEach(id => $(id).addEventListener('click', () => { ids.forEach(j => $(j).setAttribute('aria-pressed', j === id ? 'true' : 'false')); onPick(id); })); }
+  $('btnSound').addEventListener('click', () => {
+    initAudio(); if (ctx.state === 'suspended') ctx.resume();
+    S.soundOn = !S.soundOn; $('btnSound').textContent = S.soundOn ? 'Sound off' : 'Sound on';
+  });
+  seg(['hearWindow', 'hearChord'], id => { S.hear = id === 'hearChord' ? 'chord' : 'window'; });
+  seg(['dirFwd', 'dirBack'], id => { S.dir = id === 'dirFwd' ? 1 : -1; });
+  const regBtns = Array.from(document.querySelectorAll('[data-reg]'));
+  regBtns.forEach(b => b.addEventListener('click', () => { regBtns.forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); S.register = +b.dataset.reg; buildRough(); }));
+  seg(['costQuad', 'costRough'], id => {
+    S.costKind = id === 'costQuad' ? 'quadratic' : 'roughness';
+    $('curveHint').textContent = S.costKind === 'quadratic'
+      ? 'A bowl: every cent of error costs more than the last, so the cheapest place for the comma is spread evenly over all twelve fifths. This is equal temperament as a ground state.'
+      : 'Sensory roughness (Sethares) of this timbre at this register, computed from the same six-harmonic tone you are hearing. It has a sharp V at the pure fifth and flattens outward: small errors cost almost as much as big ones.';
+  });
+  function bindRange(id, vid, fmt, set) { const el = $(id); const upd = () => { set(+el.value); $(vid).textContent = fmt(+el.value); }; el.addEventListener('input', upd); upd(); }
+  bindRange('dwell', 'vDwell', v => v.toFixed(1) + ' s', v => { S.dwell = v; });
+  bindRange('lam', 'vLam', v => v === 0.5 ? 'mutual' : v === 1 ? 'follows left' : v === 0 ? 'follows right' : v.toFixed(2), v => { S.lambda = v; });
+  bindRange('rate', 'vRate', v => v.toFixed(2).replace(/\.?0+$/, '') + '×', v => { S.rate = v; });
+  bindRange('noise', 'vNoise', v => v.toFixed(2), v => { S.noise = v; });
+  $('gate').addEventListener('change', (ev) => { S.gate = ev.target.checked; });
+  function setRing(th) { S.theta = th; S.refPitch = mean(th); }
+  $('pEqual').addEventListener('click', () => setRing(RC.presetET()));
+  $('pWolf').addEventListener('click', () => setRing(RC.presetWolf(5)));
+  $('pSplit').addEventListener('click', () => setRing(RC.presetSplit(2, 8)));
+  $('pScatter').addEventListener('click', () => setRing(RC.presetScatter(Math.random)));
+  $('pUnpin').addEventListener('click', () => { S.pinned.fill(0); });
+
+  /* ---------- in-page checks (same code, no sound) ---------- */
+  $('btnChecks').addEventListener('click', () => {
+    const out = [], fmt = a => '[' + Array.from(a, x => (x >= 0 ? ' ' : '') + x.toFixed(1)).join(' ') + ']';
+    const quad = RC.makeQuadratic(), rough = RC.makeRoughness(S.register * Math.SQRT2);
+    const base = (c, x) => Object.assign({ cost: c, lambda: 0.5, rate: 1, gate: null, pinned: null, noise: 0, rand: RC.makeRand(1) }, x || {});
+    const run = (th, p, sec) => { const n = Math.round(sec * 60); for (let k = 0; k < n; k++) RC.step(th, p, 1 / 60); return th; };
+    out.push('Register ' + S.register + ' Hz.  Comma = ' + C.toFixed(3) + ' cents.  Simulated seconds at speed 1×.');
+    out.push('\nT1  Push voice 3 by +20 cents from equal temperament, release, 40 s, mutual:');
+    for (const c of [quad, rough]) { const th = RC.presetET(); th[3] += 20; run(th, base(c), 40); out.push('    ' + c.kind.padEnd(10) + fmt(RC.errors(th))); }
+    out.push('\nT2  Roughness, equal temperament + 0.01-cent noise, 60 s, three seeds (edge the wolf lands on):');
+    for (const seed of [1, 2, 3]) { const th = RC.presetET(); run(th, base(rough, { noise: 0.01, rand: RC.makeRand(seed) }), 60); const m = RC.metrics(th, rough); out.push('    seed ' + seed + '  ' + fmt(m.eps) + '  wolf on fifth ' + m.wolfEdge); }
+    out.push('\nT4  One wolf on fifth 5, λ = 1 (each voice follows its left), 30 s:');
+    for (const c of [quad, rough]) { const th = RC.presetWolf(5); const p0 = mean(th); run(th, base(c, { lambda: 1 }), 30); const m = RC.metrics(th, c); out.push('    ' + c.kind.padEnd(10) + fmt(m.eps) + '  ring pitch ' + (m.meanPitch - p0 >= 0 ? '+' : '') + (m.meanPitch - p0).toFixed(1) + ' cents'); }
+    out.push("\nT5  Tuner mode, dwell 2 s, roughness, wolf on fifth 5, window from fifth 0 going up. Each entry: fifth — error heard on arrival → wolf's fifth afterwards");
+    for (const lam of [1, 0.5, 0]) {
+      const th = RC.presetWolf(5), row = [];
+      for (let lap = 0; lap < 2; lap++) for (let w = 0; w < N; w++) { const heard = RC.errors(th)[w]; run(th, base(rough, { lambda: lam, gate: { edges: [w], rate: 3 } }), 2); row.push(w + '—' + heard.toFixed(0) + '→' + RC.metrics(th, rough).wolfEdge); }
+      out.push('    λ=' + lam + '  ' + row.join('  '));
+    }
+    const pre = $('checksOut'); pre.textContent = out.join('\n'); pre.hidden = false;
+  });
+
+  /* ---------- go ---------- */
+  function fit() { const r = cv.getBoundingClientRect(); const px = Math.round(Math.min(760, r.width) * (window.devicePixelRatio || 1)); if (cv.width !== px) { cv.width = px; cv.height = px; } }
+  window.addEventListener('resize', fit); fit();
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body></html>
